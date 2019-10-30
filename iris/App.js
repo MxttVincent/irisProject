@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import SignIn from './src/screens/SignIn';
 
  class HomeScreen extends React.Component {
   render() {
@@ -13,11 +14,15 @@ import { createStackNavigator } from 'react-navigation-stack';
   }
 }
 
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
+const AppNavigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    SignIn: SignIn,
   },
-});
+  {
+    initialRouteName: 'SignIn',
+  }
+);
 
 export default createAppContainer(AppNavigator);
 
