@@ -5,10 +5,15 @@ import { createStackNavigator } from 'react-navigation-stack';
 import SignIn from './src/screens/SignIn';
 
  class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Home Screen',
+    /* No more header config here! */
+  };
+
+
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
         <Button
         title="Go to sign in"
         onPress={() => this.props.navigation.navigate('SignIn')}
@@ -22,6 +27,14 @@ const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     SignIn
+  },
+  {
+    defaultNavigationOptions: {
+      headerTintColor: '#121212',
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+    },
   },
   {
     initialRouteName: 'Home',

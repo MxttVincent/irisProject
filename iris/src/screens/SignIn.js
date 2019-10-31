@@ -2,6 +2,12 @@ import React from 'react';
 import { Text, TextInput, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 
 class SignIn extends React.Component {
+  static navigationOptions = {
+    title: 'Sign In Screen',
+    /* No more header config here! */
+  };
+
+
   render() {
     return (
       <View>
