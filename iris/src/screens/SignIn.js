@@ -16,52 +16,29 @@ class SignIn extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // For each of your app's pages that need information about the signed-in user, 
-    // attach an observer to the global authentication object. 
-    // This observer gets called whenever the user's sign-in state changes.
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in.
-        var displayName = user.displayName;
-        var email = user.email;
-        var emailVerified = user.emailVerified;
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
-        console.log("user is logged in");
-        // console.log([displayName, email, emailVerified, photoURL, isAnonymous, uid, providerData]);
-        // ...
-      } else {
-        // User is signed out.
-        // ...
-        console.log("user is not logged in");
-      }
-    });
-  }
-
   // Called when the user wants to sign up.
-  onSignUp = (email, password) => {
-    // attemots to create a user with their email and password in firebase.
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-      // on success
-      console.log("user was created");
-    }).catch((error) => {
-      // destructuring error code and message from the error object.
-      const { code, message } = error;
-      // if error, alert the error message to the user
-      if (code) {
-        alert(message);
-      }
-    });
-  }
+  // onSignUp = (email, password) => {
+  //   // attemots to create a user with their email and password in firebase.
+  //   firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+  //     // on success
+  //     console.log("user was created");
+  //   }).catch((error) => {
+  //     // destructuring error code and message from the error object.
+  //     const { code, message } = error;
+  //     // if error, alert the error message to the user
+  //     if (code) {
+  //       alert(message);
+  //     }
+  //   });
+  // }
 
   // Called when the user wants to sign in with their email and password.
   onSignIn = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
       // on success
       console.log("user signed in");
+      // navigate the user to the appropriate page when a user signs up
+      this.props.navigation.navigate('Home');
     }).catch((error) => {
       // destructuring error code and message from the error object.
       const { code, message } = error;
@@ -78,12 +55,15 @@ class SignIn extends React.Component {
         <TextInput 
         style={styles.input}
         placeholder="Email/Username"
-        
+        value={this.state.email}
+        onChangeText={(email) => this.setState({email})}
         />
         <TextInput 
         style={styles.input}
         placeholder="Password"
         secureTextEntry={true}
+        value={this.state.password}
+        onChangeText={(password) => this.setState({password})}
         />
         <TouchableOpacity
           onPress={() => alert('Forgot password has been pressed')}>
@@ -91,7 +71,7 @@ class SignIn extends React.Component {
         </TouchableOpacity>
         <Button
           title="Sign in"
-          onPress={() => alert('Sign in pressed')}
+          onPress={() => this.onSignIn(this.state.email, this.state.password)}
         />
       </View>
     );
