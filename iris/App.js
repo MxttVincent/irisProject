@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Button } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import SignIn from './src/screens/SignIn';
@@ -10,16 +10,14 @@ import SignIn from './src/screens/SignIn';
     /* No more header config here! */
   };
 
-
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button
         title="Go to sign in"
-        onPress={() => this.props.navigation.navigate('SignIn')}
-        />
+        onPress={() => this.props.navigation.navigate('SignIn')}/>
       </View>
-    );
+    )
   }
 }
 
@@ -42,5 +40,4 @@ const AppNavigator = createStackNavigator(
 );
 
 export default createAppContainer(AppNavigator);
-
 
