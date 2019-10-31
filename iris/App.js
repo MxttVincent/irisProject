@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import SignIn from './src/screens/SignIn';
@@ -9,6 +9,10 @@ import SignIn from './src/screens/SignIn';
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Home Screen</Text>
+        <Button
+        title="Go to sign in"
+        onPress={() => this.props.navigation.navigate('SignIn')}
+        />
       </View>
     );
   }
@@ -17,10 +21,10 @@ import SignIn from './src/screens/SignIn';
 const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
-    SignIn: SignIn,
+    SignIn
   },
   {
-    initialRouteName: 'SignIn',
+    initialRouteName: 'Home',
   }
 );
 
