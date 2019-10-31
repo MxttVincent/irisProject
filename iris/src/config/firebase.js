@@ -19,6 +19,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+export default firebase
+
 
 // return (
 //   <View style={styles.container}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TextInput, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import firebase from '../config/firebase';
 
 class SignIn extends React.Component {
   static navigationOptions = {
@@ -40,51 +41,36 @@ class SignIn extends React.Component {
     });
   }
 
+  // Called when the user wants to sign up.
   onSignUp = (email, password) => {
+    // attemots to create a user with their email and password in firebase.
     firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+      // on success
       console.log("user was created");
     }).catch((error) => {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-
-      if (errorCode == 'auth/invalid-email') {
-        alert(errorMessage);
-      }
-      if(errorCode == 'auth/weak-password') {
-        alert(errorMessage)
-      }
-      if(errorCode =='auth/email-already-in-use') {
-        alert(errorMessage);
+      // destructuring error code and message from the error object.
+      const { code, message } = error;
+      // if error, alert the error message to the user
+      if (code) {
+        alert(message);
       }
     });
   }
 
+  // Called when the user wants to sign in with their email and password.
   onSignIn = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+      // on success
       console.log("user signed in");
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(error.code)
-      if(errorCode == 'auth/user-not-found') {
-        alert(errorMessage);
-      }
-      if(errorCode == 'auth/wrong-password') {
-        alert(errorMessage);
-      }
-      // disabled account for signing in
-      if(errorCode == 'auth/user-disabled') {
-        alert(errorMessage);
+    }).catch((error) => {
+      // destructuring error code and message from the error object.
+      const { code, message } = error;
+      // if error, alert the error message to the user
+      if (code) {
+        alert(message);
       }
     });
   }
-  // signs out the current user
-  onSignOut = () => {
-    firebase.auth().signOut();
-  }
-
 
   render() {
     return (
@@ -92,6 +78,7 @@ class SignIn extends React.Component {
         <TextInput 
         style={styles.input}
         placeholder="Email/Username"
+        
         />
         <TextInput 
         style={styles.input}
