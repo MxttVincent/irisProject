@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TextInput, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import Dialog from "react-native-dialog";
 import firebase from '../config/firebase';
 
 class SignIn extends React.Component {
@@ -12,7 +13,9 @@ class SignIn extends React.Component {
     super(props);
     this.state = { 
       email: '',
-      password: ''
+      password: '',
+      showDialog: false,
+      resetEmailValue: ''
     }
   }
 
@@ -49,6 +52,19 @@ class SignIn extends React.Component {
     });
   }
 
+  // handles on the event the user requests to reset their password.
+  handleEmailSend = (resetEmail) => {  
+    firebase.auth().sendPasswordResetEmail(resetEmail).then(() =>{
+      // Email sent.
+      alert("Email has been successfully sent");
+      // reset state values
+      this.setState({showDialog: false, resetEmailValue: ''});
+    }).catch((error) => {
+      // An error happened.
+      alert(error);
+    });
+  }
+
   render() {
     return (
       <View>
@@ -66,13 +82,25 @@ class SignIn extends React.Component {
         onChangeText={(password) => this.setState({password})}
         />
         <TouchableOpacity
-          onPress={() => alert('Forgot password has been pressed')}>
+        onPress={() => {this.setState({showDialog: true})}
+        }>
             <Text style={styles.textLink}>Forgot Password</Text>
         </TouchableOpacity>
         <Button
-          title="Sign in"
-          onPress={() => this.onSignIn(this.state.email, this.state.password)}
+        title="Sign in"
+        onPress={() => this.onSignIn(this.state.email, this.state.password)}
         />
+        <Dialog.Container visible={this.state.showDialog}>
+            <Dialog.Title>Reset password</Dialog.Title>
+              <Dialog.Input  
+              value={this.state.resetEmailValue}
+              onChangeText={(value) => this.setState({resetEmailValue: value})}
+              label="Email" 
+              wrapperStyle={{borderBottomWidth: 1, borderColor: 'gray'}}
+              /> 
+            <Dialog.Button label="Cancel"  onPress={() => this.setState({showDialog: false})} />
+            <Dialog.Button label="Send" onPress={() => this.handleEmailSend(this.state.resetEmailValue)} />
+        </Dialog.Container>
       </View>
     );
   }
