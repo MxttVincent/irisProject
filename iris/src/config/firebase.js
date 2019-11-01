@@ -20,34 +20,3 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export default firebase
-
-
-// return (
-//   <View style={styles.container}>
-//     <TextInput 
-//     style={styles.input}
-//     placeholder="email"
-//     value={this.state.email} 
-//     onChangeText={(email) => this.setState({email})} 
-//     />
-//     <TextInput 
-//     style={styles.input}
-//     placeholder="password"
-//     secureTextEntry={true}
-//     value={this.state.password} 
-//     onChangeText={(password) => this.setState({password})} 
-//     />
-//     <Button
-//       title="Sign up"
-//       onPress={() => onSignUp(this.state.email, this.state.password)}
-//     />
-//     <Button
-//       title="Sign in"
-//       onPress={() => onSignIn(this.state.email, this.state.password)}
-//     />
-//     <Button
-//       title="Sign out"
-//       onPress={() => onSignOut()}
-//     />
-//   </View>
-// );
