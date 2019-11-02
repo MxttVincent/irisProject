@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, Button, TouchableOpacity, Image, CameraRoll} from 'react-native';
 import firebase from '../config/firebase';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -22,7 +22,7 @@ export default class Studio extends React.Component {
     
     
       async componentDidMount() {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
         this.setState({ hasCameraPermission: status === 'granted' });
       }
       snap = async () => {
@@ -30,6 +30,12 @@ export default class Studio extends React.Component {
           let photo = await this.camera.takePictureAsync();
           console.log(photo);
           this.setState({uri: photo.uri})
+          CameraRoll.saveToCameraRoll(photo.uri ,'photo').then(image => {
+              // on success
+              console.log(image);
+          }).catch(error => {
+            console.log(error);
+          })
         }
       };
 
