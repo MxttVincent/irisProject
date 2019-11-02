@@ -6,6 +6,7 @@ import firebase from './src/config/firebase';
 // import screens
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
+import Camera from './src/screens/Camera';
 import Studio from './src/screens/Studio';
 
  class HomeScreen extends React.Component {
@@ -60,7 +61,8 @@ const AppNavigator = createStackNavigator(
     Home: HomeScreen,
     SignIn,
     SignUp,
-    Studio 
+    Camera,
+    Studio
   },
   {
     defaultNavigationOptions: {
