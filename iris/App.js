@@ -3,7 +3,9 @@ import { View, Button } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import firebase from './src/config/firebase';
+// import screens
 import SignIn from './src/screens/SignIn';
+import SignUp from './src/screens/SignUp';
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -27,7 +29,6 @@ import SignIn from './src/screens/SignIn';
         var providerData = user.providerData;
         console.log("user is logged in");
         // if user is logged in, navigate them to the appropriate page
-        this.props.navigation.navigate('SignIn');
       } else {
         // User is signed out.
         // ...
@@ -42,6 +43,9 @@ import SignIn from './src/screens/SignIn';
         <Button
         title="Go to sign in"
         onPress={() => this.props.navigation.navigate('SignIn')}/>
+        <Button
+        title="Go to sign up with email"
+        onPress={() => this.props.navigation.navigate('SignUp')}/>
       </View>
     )
   }
@@ -50,7 +54,8 @@ import SignIn from './src/screens/SignIn';
 const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
-    SignIn
+    SignIn,
+    SignUp
   },
   {
     defaultNavigationOptions: {
