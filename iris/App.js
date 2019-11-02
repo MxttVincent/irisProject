@@ -53,9 +53,17 @@ import EditProfile from './src/screens/EditProfile';
         title="Go to profile screen"
         onPress={() => {
           // must be logged in to go to profile screen
-          this.props.navigation.navigate('Profile')
+          if (firebase.auth().currentUser) {
+            this.props.navigation.navigate('Profile');
+          } else {
+            alert("user is not logged in.");
+          }
           }
         }
+        />
+        <Button
+        title="sign out"
+        onPress={() => firebase.auth().signOut()} 
         />
       </View>
     )
