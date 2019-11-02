@@ -45,13 +45,11 @@ export default class SignUp extends React.Component {
         if (code ) {
           alert(message);
         }
-        
       });
     } else {
       alert('passwords do not match');
     }
   }
-
 
   render() {
     return (
@@ -82,8 +80,6 @@ export default class SignUp extends React.Component {
       />
   </View>
     )
-
-    
   }
 }
 const styles = StyleSheet.create({

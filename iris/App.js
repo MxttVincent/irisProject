@@ -6,11 +6,14 @@ import firebase from './src/config/firebase';
 // import screens
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
+import Profile from './src/screens/Profile';
+import EditProfile from './src/screens/EditProfile';
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Home Screen',
     /* No more header config here! */
+    
   };
 
   componentDidMount() {
@@ -46,6 +49,14 @@ import SignUp from './src/screens/SignUp';
         <Button
         title="Go to sign up with email"
         onPress={() => this.props.navigation.navigate('SignUp')}/>
+        <Button
+        title="Go to profile screen"
+        onPress={() => {
+          // must be logged in to go to profile screen
+          this.props.navigation.navigate('Profile')
+          }
+        }
+        />
       </View>
     )
   }
@@ -55,7 +66,9 @@ const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     SignIn,
-    SignUp
+    SignUp,
+    Profile,
+    EditProfile
   },
   {
     defaultNavigationOptions: {
