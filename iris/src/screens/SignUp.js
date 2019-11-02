@@ -12,7 +12,8 @@ export default class SignUp extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
   }
 
@@ -31,20 +32,24 @@ export default class SignUp extends React.Component {
     });
   }
 
-  onSignUp = (email, password) => {
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-      // send user confirmation email 
-      this.handleVerificationEmail();
-      // navigate user to first page
-      this.props.navigation.navigate('Home');
-    }).catch((error) => {
-      // Handle Errors here.
-      const { code, message } = error;
-      if (code ) {
-        alert(message);
-      }
-      
-    });
+  onSignUp = (email, password, confirmPassword) => {
+    if (password === confirmPassword) {
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+        // send user confirmation email 
+        this.handleVerificationEmail();
+        // navigate user to first page
+        this.props.navigation.navigate('Home');
+      }).catch((error) => {
+        // Handle Errors here.
+        const { code, message } = error;
+        if (code ) {
+          alert(message);
+        }
+        
+      });
+    } else {
+      alert('passwords do not match');
+    }
   }
 
 
@@ -64,9 +69,16 @@ export default class SignUp extends React.Component {
       value={this.state.password} 
       onChangeText={(password) => this.setState({password})} 
       />
+      <TextInput 
+      style={styles.input}
+      placeholder="Confirm Password"
+      secureTextEntry={true}
+      value={this.state.confirmPassword} 
+      onChangeText={(confirmPassword) => this.setState({confirmPassword})} 
+      />
       <Button
         title="Sign up"
-        onPress={() => this.onSignUp(this.state.email, this.state.password)}
+        onPress={() => this.onSignUp(this.state.email, this.state.password, this.state.confirmPassword)}
       />
   </View>
     )
