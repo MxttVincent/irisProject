@@ -6,6 +6,7 @@ import firebase from './src/config/firebase';
 // import screens
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
+import Studio from './src/screens/Studio';
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -46,6 +47,9 @@ import SignUp from './src/screens/SignUp';
         <Button
         title="Go to sign up with email"
         onPress={() => this.props.navigation.navigate('SignUp')}/>
+        <Button
+        title="Go to Studio"
+        onPress={() => this.props.navigation.navigate('Studio')}/>
       </View>
     )
   }
@@ -55,7 +59,8 @@ const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     SignIn,
-    SignUp
+    SignUp,
+    Studio 
   },
   {
     defaultNavigationOptions: {
