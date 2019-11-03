@@ -17,8 +17,10 @@ export default class EditProfile extends React.Component {
     this.state = {
       username: user.displayName,
       email: user.email,
+      newEmail: '',
       photoUrl: user.photoURL,
-      showDialog: false,
+      showPasswordDialog: false,
+      showEmailDialog: false,
       currentPassword: '',
       newPassword: ''
     }
@@ -54,7 +56,7 @@ export default class EditProfile extends React.Component {
       .then(() => {
         alert("Password was changed successfully");
         // close dialog prompt at the end
-        this.setState({showDialog: false});
+        this.setState({showPasswordDialog: false});
       })
       .catch(error => {
         // if can't update password, then alert error
@@ -66,12 +68,56 @@ export default class EditProfile extends React.Component {
       alert(error.message);
     });
   }
-
+  
   /**
-   * Display a dialog prompt to the user for them to change a password.
+   * 
+   */
+  onEmailChange = (newEmail, currentPassword) => {
+    var user = firebase.auth().currentUser;
+
+    this.onReauthenticate(currentPassword)
+    .then(() => {
+      //update email
+      user.updateEmail(newEmail)
+      .then(() => {
+        // Update successful.
+        alert(`Email has been successfully changed to ${newEmail}`);
+        // only hide dialog if email was changed. if error, then user should be able to retry.
+        this.toggleChangeEmailDialog();
+        // update view to display new email instantly when changed.
+        this.setState({email: user.email});
+      })
+      .catch((error) => {
+        // An error happened.
+        alert(error);
+      });
+      
+    })
+    .catch((error) => {
+      alert(error.message, " new error")
+      console.log(firebase.auth().currentUser);
+    })
+  }
+  /**
+   * Display a dialog prompt to the user for them to change their password.
    */
   toggleChangePasswordDialog = () => {
-    this.setState({showDialog: !this.state.showDialog});
+    this.setState({
+      showPasswordDialog: !this.state.showPasswordDialog,
+      currentPassword: '',
+      newPassword: ''
+    });
+  }
+
+  /**
+   * Display a dialog prompt to the user for them to change their email.
+   */
+  toggleChangeEmailDialog = () => {
+    this.setState({
+      showEmailDialog: !this.state.showEmailDialog,
+      newEmail: '',
+      currentPassword: ''
+    });
   }
 
   render() {
@@ -88,7 +134,9 @@ export default class EditProfile extends React.Component {
           style={styles.input}
           placeholder="Email"
           value={this.state.email} 
-          onChangeText={(email) => console.log("")} 
+          onChangeText={(email) => {
+            this.setState({email});
+          }} 
           />
           <TextInput 
           style={styles.input}
@@ -105,7 +153,12 @@ export default class EditProfile extends React.Component {
             <Text style={styles.textLink}>Change Password</Text>
           </TouchableOpacity>
 
-          <Dialog.Container visible={this.state.showDialog}>
+          <TouchableOpacity
+          onPress={() => this.toggleChangeEmailDialog()}>
+            <Text style={styles.textLink}>Change Email</Text>
+          </TouchableOpacity>
+
+          <Dialog.Container visible={this.state.showPasswordDialog}>
             <Dialog.Title>Change Password</Dialog.Title>
               <Dialog.Input  
               value={this.state.currentPassword}
@@ -122,6 +175,25 @@ export default class EditProfile extends React.Component {
             <Dialog.Button label="Cancel"  onPress={() => this.toggleChangePasswordDialog()} />
             <Dialog.Button label="Confirm" onPress={() => this.onChangePassword()} />
         </Dialog.Container>
+
+        <Dialog.Container visible={this.state.showEmailDialog}>
+            <Dialog.Title>Change Email</Dialog.Title>
+              <Dialog.Input  
+              value={this.state.newEmail}
+              onChangeText={(newEmail) => this.setState({newEmail})}
+              label="New Email" 
+              wrapperStyle={{borderBottomWidth: 1, borderColor: 'gray'}}
+              />
+              <Dialog.Input  
+              value={this.state.currentPassword}
+              onChangeText={(currentPassword) => this.setState({currentPassword})}
+              label="Current Password" 
+              wrapperStyle={{borderBottomWidth: 1, borderColor: 'gray'}}
+              />  
+            <Dialog.Button label="Cancel"  onPress={() => this.toggleChangeEmailDialog()} />
+            <Dialog.Button label="Confirm" onPress={() => this.onEmailChange(this.state.newEmail, this.state.currentPassword)} />
+        </Dialog.Container>
+        
       </View>
     )
   }
