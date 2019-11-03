@@ -8,6 +8,9 @@ import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import Profile from './src/screens/Profile';
 import EditProfile from './src/screens/EditProfile';
+import Camera from './src/screens/Camera';
+import Studio from './src/screens/Studio';
+import ImageSelector from './src/screens/ImageSelector'
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -65,6 +68,9 @@ import EditProfile from './src/screens/EditProfile';
         title="sign out"
         onPress={() => firebase.auth().signOut()} 
         />
+        <Button
+        title="Go to Studio"
+        onPress={() => this.props.navigation.navigate('Studio')}/>
       </View>
     )
   }
@@ -76,7 +82,10 @@ const AppNavigator = createStackNavigator(
     SignIn,
     SignUp,
     Profile,
-    EditProfile
+    EditProfile,
+    Camera,
+    Studio,
+    ImageSelector
   },
   {
     defaultNavigationOptions: {
