@@ -1,2 +1,2 @@
 node_modules
-/src/config/*
+iris/src/config/firebase.js
