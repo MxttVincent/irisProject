@@ -8,7 +8,7 @@ import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
 import Camera from './src/screens/Camera';
 import Studio from './src/screens/Studio';
-import ImagePicker from './src/screens/ImagePicker'
+import ImageSelector from './src/screens/ImageSelector'
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -64,7 +64,7 @@ const AppNavigator = createStackNavigator(
     SignUp,
     Camera,
     Studio,
-    ImagePicker
+    ImageSelector
   },
   {
     defaultNavigationOptions: {

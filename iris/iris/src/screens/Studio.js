@@ -11,9 +11,13 @@ export default class Studio extends Component {
             onPress={() => this.snap()}
             /> */}
             <Button
-            title="Camera"
+            title="Take Photo"
             onPress={() => this.props.navigation.navigate('Camera')}/>
+            <Button
+            title="Select Image"
+            onPress={() => this.props.navigation.navigate('ImageSelector')}/>
             </View>
+            
         )
     }
 }
