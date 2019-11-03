@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import Dialog from "react-native-dialog";
 import firebase from '../config/firebase';
 
 export default class EditProfile extends React.Component {
@@ -17,7 +18,9 @@ export default class EditProfile extends React.Component {
       username: user.displayName,
       email: user.email,
       photoUrl: user.photoURL,
-
+      showDialog: false,
+      currentPassword: '',
+      newPassword: ''
     }
   }
 
@@ -25,22 +28,45 @@ export default class EditProfile extends React.Component {
     console.log("saving changes");
   }
 
+  /**
+   * Retreives logged in users credentials and attempts to re-authenticate them.
+   * returns a promise to handle on success and on failure results.
+   */
+  onReauthenticate = (current) => {
+    var user = firebase.auth().currentUser;
+    var cred = firebase.auth.EmailAuthProvider.credential(user.email, current);
+    // returns a promise
+    return user.reauthenticateWithCredential(cred);
+
+  }
+
+  /**
+   * 
+   */
   onChangePassword = () => {
-    console.log("change password was pressed");
+    console.log("cpassword called");
+
+    this.onReauthenticate(this.state.currentPassword).then(() => {
+      var user = firebase.auth().currentUser;
+      
+      user.updatePassword(this.state.newPassword).then(() => {
+        alert("Password was changed successfully");
+        // close dialog at the end
+        this.setState({showDialog: false});
+      }).catch(error => {
+        
+        alert(error.message);
+      });
+    }).catch(error => {
+      alert(error.message);
+    });
+  }
+
+  showChangePasswordDialog = () => {
+    this.setState({showDialog: true});
   }
 
   render() {
-    // console.log(user);
-
-    // if (user != null) {
-    //   username = user.displayName;
-    //   email = user.email;
-    //   photoUrl = user.photoURL;
-    //   emailVerified = user.emailVerified;
-    //   uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-    //                   // this value to authenticate with your backend server, if
-    //                   // you have one. Use User.getToken() instead.
-    // }
     return (
       <View>
         <Text>Edit profile screen</Text>
@@ -67,9 +93,27 @@ export default class EditProfile extends React.Component {
           onPress={() => this.onSaveChanges()}
           />
           <TouchableOpacity
-          onPress={() => this.onChangePassword()}>
+          onPress={() => this.showChangePasswordDialog()}>
             <Text style={styles.textLink}>Change Password</Text>
           </TouchableOpacity>
+
+          <Dialog.Container visible={this.state.showDialog}>
+            <Dialog.Title>Change Password</Dialog.Title>
+              <Dialog.Input  
+              value={this.state.currentPassword}
+              onChangeText={(currentPassword) => this.setState({currentPassword})}
+              label="Current Password" 
+              wrapperStyle={{borderBottomWidth: 1, borderColor: 'gray'}}
+              />
+              <Dialog.Input  
+              value={this.state.newPassword}
+              onChangeText={(newPassword) => this.setState({newPassword})}
+              label="New Password" 
+              wrapperStyle={{borderBottomWidth: 1, borderColor: 'gray'}}
+              />  
+            <Dialog.Button label="Cancel"  onPress={() => this.setState({showDialog: false})} />
+            <Dialog.Button label="Confirm" onPress={() => this.onChangePassword()} />
+        </Dialog.Container>
       </View>
     )
   }
