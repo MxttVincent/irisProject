@@ -45,12 +45,20 @@ export default class SignUp extends React.Component {
         if (code ) {
           alert(message);
         }
+<<<<<<< HEAD
+=======
+        
+>>>>>>> master
       });
     } else {
       alert('passwords do not match');
     }
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   render() {
     return (
     <View style={styles.container}>
@@ -80,6 +88,11 @@ export default class SignUp extends React.Component {
       />
   </View>
     )
+<<<<<<< HEAD
+=======
+
+    
+>>>>>>> master
   }
 }
 const styles = StyleSheet.create({
