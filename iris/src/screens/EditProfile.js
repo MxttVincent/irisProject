@@ -27,7 +27,18 @@ export default class EditProfile extends React.Component {
   }
 
   onSaveChanges = () => {
-    console.log("saving changes");
+    const user = firebase.auth().currentUser;
+
+    user.updateProfile({
+      displayName: this.state.username
+    }).then(() => {
+      // Update successful.
+      console.log("user info updated, username is " + user.displayName);
+    }).catch((error) => {
+      // An error happened.
+      alert(error);
+    });
+    
   }
 
   /**
@@ -70,7 +81,8 @@ export default class EditProfile extends React.Component {
   }
   
   /**
-   * 
+   * Will be called when the user confirms to change their email.
+   * Will take in the new email they want to change to and their current password to reauthenticate themselves.
    */
   onEmailChange = (newEmail, currentPassword) => {
     var user = firebase.auth().currentUser;
