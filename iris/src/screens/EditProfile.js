@@ -41,29 +41,37 @@ export default class EditProfile extends React.Component {
   }
 
   /**
-   * 
+   * Called when the user clicks confirm to change their password.
+   * Will only update the users password, if they are authenticated. 
    */
   onChangePassword = () => {
-    console.log("cpassword called");
-
-    this.onReauthenticate(this.state.currentPassword).then(() => {
+    // attempts to re authenticate with users current entered password
+    this.onReauthenticate(this.state.currentPassword)
+    .then(() => {
       var user = firebase.auth().currentUser;
-      
-      user.updatePassword(this.state.newPassword).then(() => {
+      // if successful, update users password with new password
+      user.updatePassword(this.state.newPassword)
+      .then(() => {
         alert("Password was changed successfully");
-        // close dialog at the end
+        // close dialog prompt at the end
         this.setState({showDialog: false});
-      }).catch(error => {
-        
+      })
+      .catch(error => {
+        // if can't update password, then alert error
         alert(error.message);
       });
-    }).catch(error => {
+    })
+    .catch(error => {
+      // if can't authenticate user, then alert error to the user
       alert(error.message);
     });
   }
 
-  showChangePasswordDialog = () => {
-    this.setState({showDialog: true});
+  /**
+   * Display a dialog prompt to the user for them to change a password.
+   */
+  toggleChangePasswordDialog = () => {
+    this.setState({showDialog: !this.state.showDialog});
   }
 
   render() {
@@ -93,7 +101,7 @@ export default class EditProfile extends React.Component {
           onPress={() => this.onSaveChanges()}
           />
           <TouchableOpacity
-          onPress={() => this.showChangePasswordDialog()}>
+          onPress={() => this.toggleChangePasswordDialog()}>
             <Text style={styles.textLink}>Change Password</Text>
           </TouchableOpacity>
 
@@ -111,7 +119,7 @@ export default class EditProfile extends React.Component {
               label="New Password" 
               wrapperStyle={{borderBottomWidth: 1, borderColor: 'gray'}}
               />  
-            <Dialog.Button label="Cancel"  onPress={() => this.setState({showDialog: false})} />
+            <Dialog.Button label="Cancel"  onPress={() => this.toggleChangePasswordDialog()} />
             <Dialog.Button label="Confirm" onPress={() => this.onChangePassword()} />
         </Dialog.Container>
       </View>
