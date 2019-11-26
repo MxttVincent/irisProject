@@ -10,7 +10,8 @@ import Profile from './src/screens/Profile';
 import EditProfile from './src/screens/EditProfile';
 import Camera from './src/screens/Camera';
 import Studio from './src/screens/Studio';
-import ImageSelector from './src/screens/ImageSelector'
+import ImageSelector from './src/screens/ImageSelector';
+import Gallery from './src/screens/Gallery';
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -72,6 +73,9 @@ import ImageSelector from './src/screens/ImageSelector'
         <Button
         title="Go to Studio"
         onPress={() => this.props.navigation.navigate('Studio')}/>
+        <Button 
+        title="Go to User Gallery"
+        onPress={() => this.props.navigation.navigate('Gallery')}/>
       </View>
     )
   }
@@ -86,7 +90,8 @@ const AppNavigator = createStackNavigator(
     EditProfile,
     Camera,
     Studio,
-    ImageSelector
+    ImageSelector,
+    Gallery
   },
   {
     defaultNavigationOptions: {
