@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 import firebase from '../config/firebase';
@@ -25,19 +25,18 @@ export default class Gallery extends React.Component {
     }
   }
 
-  componentDidMount = () => {}
+  componentDidMount = () => {
+    this.fetchPhotos();
+  }
 
   loadImageLibrary = async () => {
-    
       let result = await ImagePicker.launchImageLibraryAsync({
           //Only allow images to be selected
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
         aspect: [4, 3],
       });
-  
       console.log(result);
-      
       // if the user selects an image
       if (!result.cancelled) {
         this.setState({ 
@@ -51,8 +50,11 @@ export default class Gallery extends React.Component {
   uploadImage = async () => {
     const response = await fetch(this.state.image);
     const blob = await response.blob();
+
+    const filename = blob.data.name;
+    let imagesRef = storageRef.child(`images/${filename}`); 
     imagesRef.put(blob).then((snapshot) => {
-      console.log(snapshot);
+      // console.log(snapshot);
       console.log("image uploaded successfully");
       this.setState({
         image: null,
@@ -62,6 +64,12 @@ export default class Gallery extends React.Component {
     }).catch(error => {
       console.log(error)
     })
+    
+  }
+
+  fetchPhotos = () => {
+    const listRef = storageRef.child('images');
+    // console.log(listRef);
     
   }
 
@@ -79,8 +87,16 @@ export default class Gallery extends React.Component {
 
         
         
-        
+        <View style={styles.photoArea}>
+          <Text>current photos in the cloud: </Text>
+        </View>
       </View>
     )
   }
+
 }
+const styles = StyleSheet.create({
+  photoArea: {
+    marginVertical: 50
+  }
+})
