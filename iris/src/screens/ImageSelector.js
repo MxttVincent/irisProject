@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, Button, TouchableOpacity, Image, CameraRoll} fro
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import firebase from '../config/firebase';
 export default class ImageSelector extends Component {
     state = {
         image: null,
