@@ -23,7 +23,6 @@ class SignIn extends React.Component {
   onSignIn = (email, password) => {
     // checks to see if the user entered a username not an email.
     if (!email.includes("@")) {
-
       const db = firebase.firestore();
       const usersRef = db.collection("users");
       // email in this case is the users input. so email could be just john123
@@ -35,7 +34,7 @@ class SignIn extends React.Component {
             // get the correct user's email
             userEmail = doc.data().email;
             // login with that users email, but it seems like they logged in with their username instead
-            this.login(userEmail, password);
+            this.handleLogin(userEmail, password);
           })
         }).catch(error => {
           console.log("Error getting documents: ", error);
@@ -43,10 +42,9 @@ class SignIn extends React.Component {
         
     } else {
       // just login normally with email and pass
-      this.login(email, password);
+      this.handleLogin(email, password);
     }
-    
-    
+
   }
 
   // this method handles to login logic.
