@@ -132,8 +132,6 @@ export default class Gallery extends React.Component {
           {this.state.photos.map(photo =>{ 
               return (
                 <View>
-                  
-                
                   <TouchableOpacity onPress={() => this.onSelectPhoto() }>
                     <Image 
                     key={photo} 

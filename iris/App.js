@@ -3,6 +3,7 @@ import { View, Button, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import firebase from './src/config/firebase';
+import './src/fixtimerbug';
 // import screens
 import SignIn from './src/screens/SignIn';
 import SignUp from './src/screens/SignUp';
