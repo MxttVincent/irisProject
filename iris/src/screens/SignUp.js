@@ -28,8 +28,16 @@ export default class SignUp extends React.Component {
       username: username,
       email: email,
     })
-    .then(docRef => {
-      console.log("Document written with ID: ", docRef.id);
+    .then(() => {
+      // set the users display name to their username 
+      firebase.auth().currentUser.updateProfile({
+        displayName: username
+      });
+      console.log(username);
+      // send user confirmation email 
+      this.handleVerificationEmail();
+      // navigate user to first page
+      this.props.navigation.navigate('Home');
     })
     .catch(error => {
       console.error("Error adding document: ", error);
@@ -57,15 +65,7 @@ export default class SignUp extends React.Component {
       firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
         // create a user in the database
         this.createUserInDatabase(username, email);
-        // set the users display name to their username 
-        firebase.auth().currentUser.updateProfile({
-          displayName: username
-        });
-        console.log(username);
-        // send user confirmation email 
-        this.handleVerificationEmail();
-        // navigate user to first page
-        this.props.navigation.navigate('Home');
+        
       }).catch((error) => {
         // Handle Errors here.
         const { code, message } = error;
