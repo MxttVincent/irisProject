@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 import firebase from '../config/firebase';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 var storage = firebase.storage();
@@ -19,7 +20,8 @@ export default class Gallery extends React.Component {
       height: null,
       width: null,
       uid: firebase.auth().currentUser.uid || null,
-      photos: []
+      photos: [],
+      showPostButton: false
     }
   }
 
@@ -34,6 +36,7 @@ export default class Gallery extends React.Component {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
         aspect: [4, 3],
+        allowsMultipleSelection: true // web only
       });
       console.log(result);
       // if the user selects an image
@@ -54,9 +57,12 @@ export default class Gallery extends React.Component {
     // store the images filename
     const filename = blob.data.name;
     // create a reference where the image will live in storage
-    let imagesRef = storageRef.child(`users/${uid}/${filename}`); 
+    let imagesRef = storageRef.child(`users/${uid}/${filename}`);
+    
+    const task = horseRef.put(blob);
     // Upload the blob/image to the referred location
-    imagesRef.put(blob).then((snapshot) => {
+    task.then((snapshot) => {
+      console.log(snapshot.state);
       console.log("image uploaded successfully");
       this.setState({
         image: null,
@@ -84,6 +90,27 @@ export default class Gallery extends React.Component {
       console.log(err);
     })
     
+  } 
+
+  // what happens when the user selects a photo.
+  onSelectPhoto = () => {
+    // toggle button display to publish
+    this.setState({showPostButton: !this.state.showPostButton})
+
+  }
+
+  onPublishPhoto = () => {
+    const db = firebase.firestore();
+
+    db.collection("posts").add({
+      postName: "initial test"
+    })
+    .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+    });
   }
 
   
@@ -104,8 +131,23 @@ export default class Gallery extends React.Component {
           <Text>current photos in the cloud: </Text>
           {this.state.photos.map(photo =>{ 
               return (
-                <Image key={photo} source={{uri: photo}} style={{width: 100, height: 100}}/>
+                <View>
+                  
+                
+                  <TouchableOpacity onPress={() => this.onSelectPhoto() }>
+                    <Image 
+                    key={photo} 
+                    source={{uri: photo}} 
+                    style={{width: 100, height: 100, marginVertical: 5}} 
+                    />
+                    
+                </TouchableOpacity>
+                  {this.state.showPostButton 
+                    ? <Button title="publish" onPress={() => this.onPublishPhoto()}/> 
+                    : null}
+                </View>
               )
+              
           })}
         </View>
       </View>
