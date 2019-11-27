@@ -11,12 +11,31 @@ export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      confirmPassword: ''
+      username: null,
+      email: null,
+      password: null,
+      confirmPassword: null
     }
   }
 
+  createUserInDatabase = (username, email) => {
+    console.log("createUserInDatabase was called")
+    const db = firebase.firestore();
+
+    db.collection("users").add({
+      userId: firebase.auth().currentUser.uid,
+      username: username,
+      email: email,
+    })
+    .then(docRef => {
+      console.log("Document written with ID: ", docRef.id);
+    })
+    .catch(error => {
+      console.error("Error adding document: ", error);
+    });
+  }
+
+  // Handles sending an verification email to the signed up user
   handleVerificationEmail = () => {
     console.log("verify was called")
     const user = firebase.auth().currentUser;
@@ -32,9 +51,11 @@ export default class SignUp extends React.Component {
     });
   }
 
-  onSignUp = (email, password, confirmPassword) => {
+  onSignUp = (username, email, password, confirmPassword) => {
     if (password === confirmPassword) {
       firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+        // create a user in the database
+        this.createUserInDatabase(username, email);
         // send user confirmation email 
         this.handleVerificationEmail();
         // navigate user to first page
@@ -56,6 +77,12 @@ export default class SignUp extends React.Component {
   render() {
     return (
     <View style={styles.container}>
+      <TextInput
+      style={styles.input}
+      placeholder="username"
+      value={this.state.username} 
+      onChangeText={(username) => this.setState({username})} 
+      />
       <TextInput 
       style={styles.input}
       placeholder="email"
@@ -78,7 +105,7 @@ export default class SignUp extends React.Component {
       />
       <Button
         title="Sign up"
-        onPress={() => this.onSignUp(this.state.email, this.state.password, this.state.confirmPassword)}
+        onPress={() => this.onSignUp(this.state.username, this.state.email, this.state.password, this.state.confirmPassword)}
       />
   </View>
     )
