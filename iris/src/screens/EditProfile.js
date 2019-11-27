@@ -94,12 +94,24 @@ export default class EditProfile extends React.Component {
       //update email
       user.updateEmail(newEmail)
       .then(() => {
-        // Update successful.
-        alert(`Email has been successfully changed to ${newEmail}`);
-        // only hide dialog if email was changed. if error, then user should be able to retry.
-        this.toggleChangeEmailDialog();
-        // update view to display new email instantly when changed.
-        this.setState({email: user.email});
+        //update database
+        const db = firebase.firestore();
+        const usersRef = db.collection("users").doc(`${user.uid}`);
+        return usersRef.update({
+          email: newEmail
+        }).then(() => {
+          console.log("User email updated in database");
+          // Update successful.
+          alert(`Email has been successfully changed to ${newEmail}`);
+          // only hide dialog if email was changed. if error, then user should be able to retry.
+          this.toggleChangeEmailDialog();
+          // update view to display new email instantly when changed.
+          this.setState({email: user.email});
+        })
+        .catch(error => {
+          console.error(error);
+        })
+        
       })
       .catch((error) => {
         // An error happened.
