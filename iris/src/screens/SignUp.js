@@ -21,9 +21,10 @@ export default class SignUp extends React.Component {
   createUserInDatabase = (username, email) => {
     console.log("createUserInDatabase was called")
     const db = firebase.firestore();
+    const userId = firebase.auth().currentUser.uid;
 
-    db.collection("users").add({
-      userId: firebase.auth().currentUser.uid,
+    db.collection("users").doc(id).add({
+      userId: userId,
       username: username,
       email: email,
     })
