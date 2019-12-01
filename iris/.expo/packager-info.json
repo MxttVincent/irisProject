@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 38226,
-  "expoServerNgrokUrl": "https://je-cyb.anonymous.iris.exp.direct",
-  "packagerNgrokUrl": "https://packager.je-cyb.anonymous.iris.exp.direct",
-  "ngrokPid": 38236
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
