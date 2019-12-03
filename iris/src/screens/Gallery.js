@@ -59,7 +59,7 @@ export default class Gallery extends React.Component {
     // create a reference where the image will live in storage
     let imagesRef = storageRef.child(`users/${uid}/${filename}`);
     
-    const task = horseRef.put(blob);
+    const task = imagesRef.put(blob);
     // Upload the blob/image to the referred location
     task.then((snapshot) => {
       console.log(snapshot.state);
