@@ -49,7 +49,7 @@ export default class Editor extends Component {
         let x = this.state._height + 20;
         const manipResult = await ImageManipulator.manipulateAsync(
             this.state.manip.uri,
-            [{ resize: {x,x} }]
+            [{ resize: {height: x} }]
           );
           console.log("this is");
           console.log(manipResult);
