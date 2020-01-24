@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TextInput, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import Dialog from "react-native-dialog";
-import firebase from '../config/firebase';
+import firebase from '../../config/firebase';
 
 class SignIn extends React.Component {
   static navigationOptions = {

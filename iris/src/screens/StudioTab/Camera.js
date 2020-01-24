@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity, Image, CameraRoll} from 'react-native';
-import firebase from '../config/firebase';
+import firebase from '../../config/firebase';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, Button, Image } from 'react-native';
 import Dialog from "react-native-dialog";
-import firebase from '../config/firebase';
+import firebase from '../../config/firebase';
 import * as ImagePicker from 'expo-image-picker';
 
 export default class EditProfile extends React.Component {

@@ -3,13 +3,13 @@ import {View, Text, StyleSheet, Button, TouchableOpacity, Image, CameraRoll} fro
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import firebase from '../config/firebase';
+
+import FloatingButton from '../../components/FloatingButton.component';
 
 export default class Studio extends Component {
     
-    static navigationOptions = {
-        title: 'Studio',
-    };
+    // static navigationOptions = {
+    // };
 
     state = {
         image: null,
@@ -34,8 +34,7 @@ export default class Studio extends Component {
         let result = await ImagePicker.launchImageLibraryAsync({
             //Only allow images to be selected
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: false,
-          aspect: [4, 3],
+          allowsEditing: true,
         });
     
         console.log(result);
@@ -46,33 +45,34 @@ export default class Studio extends Component {
               height: result.height,
               width: result.width
         });
-
-        const { img } = this.state;
-
-        this.props.navigation.navigate('Editor', {result});
-    }
+            this.props.navigation.navigate('Editor', {result});
+        }
     }
     
     render() {
         return (
-            <View>
-            <Text>Studio Screen for accessing Camera and Gallery</Text>
-            {/* <Button
-            title="Gallery"
-            onPress={() => this.snap()}
-            /> */}
+            <View >
+             <Text>Studio Screen for accessing Camera and Gallery</Text>
             <Button
-            title="Take Photo"
-            onPress={() => this.props.navigation.navigate('Camera')}/>
-            <Button
-            title="Select Image"
-            onPress={() => {
-                this.openGallery();
-                /* this.props.navigation.navigate('Editor', { img }); */
-            }
-        }/>
-            </View>
+             title="Take Photo"
+             onPress={() => this.props.navigation.navigate('Camera')}/>
+             <Button
+             title="Select Image"
+             onPress={() => {
+                 this.openGallery();
+             }
+         }/>
+         </View>
             
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        alignItems: "center",
+        position: "absolute"
+    }
+})
+
+

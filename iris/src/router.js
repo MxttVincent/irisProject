@@ -1,17 +1,16 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import non-auth screens
-import SignIn from './screens/SignIn';
-import SignUp from './screens/SignUp';
-import Home from './screens/Home';
+import SignIn from './screens/preauth/SignIn';
+import SignUp from './screens/preauth/SignUp';
+import Home from './screens/preauth/Home';
 // import screens when authorised.
-import Feed from './screens/Feed';
-import Profile from './screens/Profile';
-import EditProfile from './screens/EditProfile';
-import Camera from './screens/Camera';
-import Studio from './screens/Studio';
-import ImageSelector from './screens/ImageSelector';
-import Editor from './screens/Editor';
+import Feed from './screens/FeedTab/Feed';
+import Profile from './screens/ProfileTab/Profile';
+import EditProfile from './screens/ProfileTab/EditProfile';
+import Camera from './screens/StudioTab/Camera';
+import Studio from './screens/StudioTab/Studio';
+import Editor from './screens/StudioTab/Editor';
 
 import { createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -26,7 +25,6 @@ export const HomeStack = createStackNavigator({
 export const StudioStack = createStackNavigator({
   Studio, 
   Camera,
-  ImageSelector,
   Editor
 }, {
 initialRouteName: 'Studio',
@@ -76,14 +74,6 @@ export const SignedOut = createStackNavigator({
   SignUp,
   SignIn
 })
-
-// export const AppNavigator = createSwitchNavigator(
-//   {
-//   Auth: SignedOut,
-//   Home: SignedIn,
-//   },
-  
-// );
 
 export const createRootNavigator = (x = false) => {
   return createSwitchNavigator(
