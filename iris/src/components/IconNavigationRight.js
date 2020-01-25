@@ -5,19 +5,13 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default IconNavigationRight = (props) => {
   return (
-      <View style={{flexDirection: "row", display: "flex"}}>
+      <View>
           <Icon style={styles.Icon} 
-              name="camera" 
-              size={24} 
-              color="#000"
-              onPress={() => props.navigation.navigate('Camera')}
-              />
-          <Icon style={styles.Icon} 
-              name="plus" 
+              name={props.name} 
               size={24} 
               color="#000" 
-              onPress={() => props.addPhoto() }
-          />
+              onPress={props.onPress}
+            />
       </View>
   )
 }
