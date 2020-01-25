@@ -3,6 +3,7 @@ import { Dimensions, PixelRatio, Text, TextInput, View, StyleSheet, Button, Touc
 import * as ImageManipulator from 'expo-image-manipulator';
 
 import IconNavigationRight from '../../../components/IconNavigationRight';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Editor extends Component {
 
@@ -72,9 +73,20 @@ export default class Editor extends Component {
 
     render() {
         return (
-          <View>
-            {this._renderImage()}
-          </View>
+            <View >
+                {this._renderImage()}
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
+                        <Icon name="filter" size={32}/>
+                    </View>
+                    <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
+                        <Icon name="sliders" size={32}/>
+                    </View>
+                    <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
+                        <Icon name="history" size={32}/>
+                    </View>
+                </View>
+            </View>
         )}
 
     _renderImage = () => {
