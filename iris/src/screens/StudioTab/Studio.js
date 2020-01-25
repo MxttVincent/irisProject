@@ -4,27 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
-// import icon bundle from font awesome pack
-import Icon from 'react-native-vector-icons/FontAwesome'
 
-const IconNavigationRight = (props) => {
-    return (
-        <View style={{flexDirection: "row", display: "flex"}}>
-            <Icon style={styles.Icon} 
-                name="camera" 
-                size={24} 
-                color="#000"
-                onPress={() => props.navigation.navigate('Camera')}
-                />
-            <Icon style={styles.Icon} 
-                name="plus" 
-                size={24} 
-                color="#000" 
-                onPress={() => props.addPhoto() }
-            />
-        </View>
-    )
-}
+import IconNavigationRight from './IconNavigationRight';
 
 export default class Studio extends Component {
     
@@ -32,7 +13,11 @@ export default class Studio extends Component {
         const { params = {} } = navigation.state;
         return {
             title: "Studio",
-            headerRight: () => <IconNavigationRight addPhoto={params.addPhoto} navigation={navigation}/>
+            headerRight: () => (
+                <IconNavigationRight 
+                addPhoto={params.addPhoto} 
+                navigation={navigation}/>
+            )
             
         };
     };
@@ -45,6 +30,7 @@ export default class Studio extends Component {
 
     componentDidMount() {
         this.getPermissionAsync();
+        // Allows the header icon access to this classes function.
         this.props.navigation.setParams({addPhoto: this.openGallery});
     }
 
@@ -78,10 +64,7 @@ export default class Studio extends Component {
     
     render() {
         return (
-            <View >
-             <Text>Studio Screen for accessing Camera and Gallery</Text>
-            
-             
+            <View >            
          </View>
             
         )
@@ -92,9 +75,6 @@ const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         position: "absolute"
-    },
-    Icon: {
-        marginHorizontal: 20
     }
 })
 
