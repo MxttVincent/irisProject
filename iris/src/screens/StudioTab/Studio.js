@@ -6,10 +6,27 @@ import * as Permissions from 'expo-permissions';
 
 import FloatingButton from '../../components/FloatingButton.component';
 
+// import icon bundle
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+const IconNavigationRight = () => {
+    const camera = <Icon style={styles.Icon} name="camera" size={24} color="#000" />
+    const addImage = <Icon style={styles.Icon} name="plus" size={24} color="#000" />
+    return (
+        <View style={{flexDirection: "row", display: "flex"}}>
+        {camera}
+        {addImage}
+        </View>
+    )
+}
+
 export default class Studio extends Component {
     
-    // static navigationOptions = {
-    // };
+    static navigationOptions = {
+        headerRight: () => (
+            <IconNavigationRight />
+          )
+    };
 
     state = {
         image: null,
@@ -72,6 +89,9 @@ const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         position: "absolute"
+    },
+    Icon: {
+        marginHorizontal: 20
     }
 })
 

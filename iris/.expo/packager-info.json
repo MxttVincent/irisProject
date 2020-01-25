@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19003,
-  "packagerPid": 36942,
+  "packagerPort": 19004,
+  "packagerPid": 30656,
   "expoServerNgrokUrl": "https://xm-4jk.anonymous.iris.exp.direct",
   "packagerNgrokUrl": "https://packager.xm-4jk.anonymous.iris.exp.direct",
-  "ngrokPid": 36952
+  "ngrokPid": 30666
 }
