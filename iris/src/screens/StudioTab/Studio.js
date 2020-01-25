@@ -4,28 +4,36 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
-import FloatingButton from '../../components/FloatingButton.component';
-
-// import icon bundle
+// import icon bundle from font awesome pack
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const IconNavigationRight = () => {
-    const camera = <Icon style={styles.Icon} name="camera" size={24} color="#000" />
-    const addImage = <Icon style={styles.Icon} name="plus" size={24} color="#000" />
+const IconNavigationRight = (props) => {
     return (
         <View style={{flexDirection: "row", display: "flex"}}>
-        {camera}
-        {addImage}
+            <Icon style={styles.Icon} 
+                name="camera" 
+                size={24} 
+                color="#000"
+                onPress={() => props.navigation.navigate('Camera')}
+                />
+            <Icon style={styles.Icon} 
+                name="plus" 
+                size={24} 
+                color="#000" 
+                onPress={() => props.addPhoto() }
+            />
         </View>
     )
 }
 
 export default class Studio extends Component {
     
-    static navigationOptions = {
-        headerRight: () => (
-            <IconNavigationRight />
-          )
+    static navigationOptions = ({navigation}) => {
+        const { params = {} } = navigation.state;
+        return {
+            headerRight: () => <IconNavigationRight addPhoto={params.addPhoto} navigation={navigation}/>
+            
+        };
     };
 
     state = {
@@ -36,6 +44,7 @@ export default class Studio extends Component {
 
     componentDidMount() {
         this.getPermissionAsync();
+        this.props.navigation.setParams({addPhoto: this.openGallery});
     }
 
     getPermissionAsync = async () => {
@@ -70,15 +79,8 @@ export default class Studio extends Component {
         return (
             <View >
              <Text>Studio Screen for accessing Camera and Gallery</Text>
-            <Button
-             title="Take Photo"
-             onPress={() => this.props.navigation.navigate('Camera')}/>
-             <Button
-             title="Select Image"
-             onPress={() => {
-                 this.openGallery();
-             }
-         }/>
+            
+             
          </View>
             
         )
