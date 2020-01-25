@@ -31,6 +31,7 @@ export default class Studio extends Component {
     static navigationOptions = ({navigation}) => {
         const { params = {} } = navigation.state;
         return {
+            title: "Studio",
             headerRight: () => <IconNavigationRight addPhoto={params.addPhoto} navigation={navigation}/>
             
         };
