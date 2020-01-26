@@ -1,15 +1,18 @@
 [
   {
     "type": "filter",
-    "text": "example 1"
+    "text": "contrast",
+    "iconName": "adjust"
   },
   {
     "type": "filter",
-    "text": "example 2"
+    "text": "saturation",
+    "iconName": "sun-o"
   },
   {
     "type": "filter",
-    "text": "example 3"
+    "text": "Crop",
+    "iconName": "crop"
   },
   {
     "type": "filter",

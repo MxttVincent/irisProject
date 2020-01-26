@@ -33,8 +33,6 @@ export default class Editor extends Component {
         }
     }
 
-    
-
     componentDidMount() {
         let result = this.props.navigation.state.params.result; 
         this.setState({ 
@@ -77,24 +75,21 @@ export default class Editor extends Component {
           this.setState({ manip: manipResult, _height: x });
     }
 
-    render() {
+    _renderTabBar = () => {
         return (
-            <View >
-                {this._renderImage()}
-                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type} active={this.state.tabActive}/>  : null}
-                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="filter" size={32} onPress={() => this.setState({ scrollerType: {type:'filter'}, tabActive: !this.state.tabActive})}/>
-                    </View>
-                    <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="sliders" size={32} onPress={() => this.setState({ scrollerType: {type:'sliders'}, tabActive: !this.state.tabActive})}/>
-                    </View>
-                    <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="history" size={32} onPress={() => this.setState({ scrollerType: {type:'history'}, tabActive: !this.state.tabActive})}/>
-                    </View>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
+                    <Icon name="filter" size={32} onPress={() => this.setState({ scrollerType: {type:'filter'}, tabActive: !this.state.tabActive})}/>
+                </View>
+                <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
+                    <Icon name="sliders" size={32} onPress={() => this.setState({ scrollerType: {type:'sliders'}, tabActive: !this.state.tabActive})}/>
+                </View>
+                <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
+                    <Icon name="history" size={32} onPress={() => this.setState({ scrollerType: {type:'history'}, tabActive: !this.state.tabActive})}/>
                 </View>
             </View>
-        )}
+        )
+    }
 
     _renderImage = () => {
         if (this.state.manip != null){
@@ -108,16 +103,13 @@ export default class Editor extends Component {
             );
         }
     };
+
+    render() {
+        return (
+            <View >
+                {this._renderImage()}
+                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type} active={this.state.tabActive}/>  : null}
+                {this._renderTabBar()}
+            </View>
+        )}
 }
-
-const styles = StyleSheet.create({
-    text: {
-        fontSize: 50
-    }
-})
-
-// Code before started to edit the layout
-
-// <Button title="Rotate" onPress={this._rotate90} /> 
-//             <Button title="bic" onPress={this._larger} /> 
-//             <Button title="smol" onPress={this._smaller} /> 

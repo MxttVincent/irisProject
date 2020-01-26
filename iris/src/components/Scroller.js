@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
-import Option from '../components/Option';
 import OptionList from './OptionList';
 
+// can be deleted if it seems like we only need option list, which so far looks so.
 export default Scroller = (props) => {
   const {type, active} = props;
   console.log(type, active);

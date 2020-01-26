@@ -9,7 +9,7 @@ export default class OptionList extends React.Component {
     return <FlatList horizontal={true} data={data} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
       
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <Option text={obj.item.text}/>
+        <Option text={obj.item.text} iconName={obj.item.iconName || "filter"}/>
       </View>
       )
     }/>
