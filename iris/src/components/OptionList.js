@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-
+import Option from './Option';
 import data from './options.json';
 
 // Renders a list of options for EditorScreen.
