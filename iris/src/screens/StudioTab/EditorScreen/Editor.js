@@ -81,7 +81,7 @@ export default class Editor extends Component {
         return (
             <View >
                 {this._renderImage()}
-                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type}/> : null}
+                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type} active={this.state.tabActive}/>  : null}
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
                         <Icon name="filter" size={32} onPress={() => this.setState({ scrollerType: {type:'filter'}, tabActive: !this.state.tabActive})}/>
@@ -90,7 +90,7 @@ export default class Editor extends Component {
                         <Icon name="sliders" size={32} onPress={() => this.setState({ scrollerType: {type:'sliders'}, tabActive: !this.state.tabActive})}/>
                     </View>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="history" size={32} onPress={() => this.setState({scrollerType: {type:'history'}, tabActive: !this.state.tabActive})}/>
+                        <Icon name="history" size={32} onPress={() => this.setState({ scrollerType: {type:'history'}, tabActive: !this.state.tabActive})}/>
                     </View>
                 </View>
             </View>
