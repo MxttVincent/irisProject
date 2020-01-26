@@ -11,10 +11,8 @@ export default Scroller = (props) => {
   // Depending on the type return different options
   // Each Option needs their own icon and text value, as well as an on press function. 
   return (
-    <ScrollView horizontal={true}> 
-      
-      
-      <OptionList />
-    </ScrollView>
+      <View>
+        <OptionList />
+      </View>
   )
 }

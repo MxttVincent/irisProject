@@ -6,7 +6,7 @@ export default Option = (props) => {
   // Each Option needs their own icon and text value, as well as an on press function
   return (
     
-    <View style={{flex: 1, width: 75, height: 75, justifyContent: "center", alignItems: "center", borderLeftColor: '#000', borderWidth: 1}}>
+    <View style={{flex: 1, width: 75, height: 75, marginHorizontal: 10, justifyContent: "center", alignItems: "center"}}>
         <Icon name="filter" size={32} onPress={() => null}/>
         <Text >{props.text}</Text>
     </View>
