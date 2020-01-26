@@ -28,7 +28,8 @@ export default class Editor extends Component {
             manip: null,
             _width: 300,
             _height: 300,
-            tabActive: false
+            tabActive: false,
+            scrollerType: {type: null}
         }
     }
 
@@ -40,7 +41,9 @@ export default class Editor extends Component {
             uri: result.uri,
             height: result.height,
             width: result.width,
-            manip: result
+            manip: result,
+            tabActive: false, // you can only have one tab active at a time
+            scrollerType: null
          });
          console.log(Dimensions.get('window').width);
     }
@@ -78,16 +81,16 @@ export default class Editor extends Component {
         return (
             <View >
                 {this._renderImage()}
-                {this.state.tabActive ? <Scroller /> : null}
+                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type}/> : null}
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="filter" size={32} onPress={() => null}/>
+                        <Icon name="filter" size={32} onPress={() => this.setState({ scrollerType: {type:'filter'}, tabActive: !this.state.tabActive})}/>
                     </View>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="sliders" size={32} onPress={() => this.setState({tabActive: !this.state.tabActive})}/>
+                        <Icon name="sliders" size={32} onPress={() => this.setState({ scrollerType: {type:'sliders'}, tabActive: !this.state.tabActive})}/>
                     </View>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="history" size={32} onPress={() => null}/>
+                        <Icon name="history" size={32} onPress={() => this.setState({scrollerType: {type:'history'}, tabActive: !this.state.tabActive})}/>
                     </View>
                 </View>
             </View>
