@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Dimensions, PixelRatio, Text, TextInput, View, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
+import { Dimensions, ScrollView, Text, TextInput, View, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
 import * as ImageManipulator from 'expo-image-manipulator';
 
 import IconNavigationRight from '../../../components/IconNavigationRight';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import Scroller from '../../../components/Scroller';
 
 export default class Editor extends Component {
 
@@ -25,7 +27,8 @@ export default class Editor extends Component {
             width: null,
             manip: null,
             _width: 300,
-            _height: 300
+            _height: 300,
+            tabActive: false
         }
     }
 
@@ -75,15 +78,16 @@ export default class Editor extends Component {
         return (
             <View >
                 {this._renderImage()}
+                {this.state.tabActive ? <Scroller /> : null}
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="filter" size={32}/>
+                        <Icon name="filter" size={32} onPress={() => null}/>
                     </View>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="sliders" size={32}/>
+                        <Icon name="sliders" size={32} onPress={() => this.setState({tabActive: !this.state.tabActive})}/>
                     </View>
                     <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                        <Icon name="history" size={32}/>
+                        <Icon name="history" size={32} onPress={() => null}/>
                     </View>
                 </View>
             </View>
@@ -102,6 +106,12 @@ export default class Editor extends Component {
         }
     };
 }
+
+const styles = StyleSheet.create({
+    text: {
+        fontSize: 50
+    }
+})
 
 // Code before started to edit the layout
 
