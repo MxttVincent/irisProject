@@ -5,9 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default class TabBar extends React.Component {
   
   // handles the event, when a user presses a tab.
-  handleTabPick = () => {
+  handleTabPick = (x) => {
     // Get the icon reference that was clicked and pass its name to our prop function in Editor.js
-    this.props.onPressHandler(this.icon.props.name); 
+    console.log(x);
+    // this.props.onPressHandler(this.icon.props.name); 
   }
 
   render() {
@@ -18,11 +19,11 @@ export default class TabBar extends React.Component {
                 ref={(ref) => this.icon = ref} 
                 name="filter" 
                 size={32} 
-                onPress={this.handleTabPick}
+                onPress={this.handleTabPick.bind(1)}
                />
           </View>
           <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-              <Icon name="sliders" size={32} onPress={this.handleTabPick}/>
+              <Icon name="sliders" size={32} onPress={this.handleTabPick.bind(2)}/>
           </View>
           <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
               <Icon name="history" size={32} onPress={this.handleTabPick}/>
