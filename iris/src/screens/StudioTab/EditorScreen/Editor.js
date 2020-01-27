@@ -3,12 +3,11 @@ import { Dimensions, ScrollView, Text, TextInput, View, StyleSheet, Button, Touc
 import * as ImageManipulator from 'expo-image-manipulator';
 
 import IconNavigationRight from '../../../components/IconNavigationRight';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
+import TabBar from '../../../components/TabBar';
 import Scroller from '../../../components/Scroller';
 
 export default class Editor extends Component {
-
     static navigationOptions = {
         title: 'Editor',
         headerRight: () => (
@@ -45,71 +44,36 @@ export default class Editor extends Component {
          });
          console.log(Dimensions.get('window').width);
     }
-
-    _rotate90 = async () => {
-        const manipResult = await ImageManipulator.manipulateAsync(
-            this.state.manip.uri,
-            [{ rotate: 90 } ]
-          );
-          this.setState({ manip: manipResult });
-    }
-
-    _larger = async () => {
-        console.log(this.state._height);
-        let x = this.state._height + 20;
-        const manipResult = await ImageManipulator.manipulateAsync(
-            this.state.manip.uri,
-            [{ resize: {height: x} }]
-          );
-          console.log("this is");
-          console.log(manipResult);
-          this.setState({ manip: manipResult, _height: x });
-    }
-
-    _smaller = async () => {
-        let x = this.state._height - 20;
-        const manipResult = await ImageManipulator.manipulateAsync(
-            this.state.manip.uri,
-            [{ resize: {x} }]
-          );
-          this.setState({ manip: manipResult, _height: x });
-    }
-
-    _renderTabBar = () => {
-        return (
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-                <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                    <Icon name="filter" size={32} onPress={() => this.setState({ scrollerType: {type:'filter'}, tabActive: !this.state.tabActive})}/>
-                </View>
-                <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                    <Icon name="sliders" size={32} onPress={() => this.setState({ scrollerType: {type:'sliders'}, tabActive: !this.state.tabActive})}/>
-                </View>
-                <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-                    <Icon name="history" size={32} onPress={() => this.setState({ scrollerType: {type:'history'}, tabActive: !this.state.tabActive})}/>
-                </View>
-            </View>
-        )
-    }
-
+    handleOption = (type) => {
+        console.log('handle option runs')
+        console.log(type);
+        this.setState({ scrollerType: {type: type}, tabActive: !this.state.tabActive})
+    } 
+    
     _renderImage = () => {
         if (this.state.manip != null){
             return (
                 <View style={{ marginVertical: 20, alignItems: 'center', justifyContent: 'center' }}>
                     <Image
                         source={{ uri: this.state.manip.uri }}
-                        style={{ width: 300, height: 300, resizeMode: 'contain' }}
+                        style={{ width: 450, height: 450, resizeMode: 'contain' }}
                     />
                 </View>
             );
         }
     };
 
+    
+
     render() {
+        console.log("editor rendered")
         return (
             <View >
                 {this._renderImage()}
                 {this.state.tabActive ? <Scroller type={this.state.scrollerType.type} active={this.state.tabActive}/>  : null}
-                {this._renderTabBar()}
+                <TabBar onPressHandler={this.handleOption}/>
             </View>
-        )}
+        )
+    }
 }
+// 
