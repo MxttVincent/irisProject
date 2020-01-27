@@ -19,14 +19,14 @@ export default class TabBar extends React.Component {
                 ref={(ref) => this.icon = ref} 
                 name="filter" 
                 size={32} 
-                onPress={this.handleTabPick.bind(1)}
+                onPress={() => this.handleTabPick("1")}
                />
           </View>
           <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-              <Icon name="sliders" size={32} onPress={this.handleTabPick.bind(2)}/>
+              <Icon name="sliders" size={32} onPress={() => this.handleTabPick("2")}/>
           </View>
           <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-              <Icon name="history" size={32} onPress={this.handleTabPick}/>
+              <Icon name="history" size={32} onPress={() => this.handleTabPick("3")}/>
           </View>
       </View>
       )
