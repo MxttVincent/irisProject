@@ -1,19 +1,48 @@
 import React from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import Option from './Option';
-import data from './options.json';
+import AdjusmentOption from './AdjusmentOption';
+
+// import data to generate lists of options from it
+import AdjustmentsOptionData from './options.json';
+import filterOptions from './filterOptions.json';
 
 // Renders a list of options for EditorScreen.
 export default class OptionList extends React.Component {
+
+    renderOptions = (type) => {
+    switch (type) {
+      case 'filter':
+        return <FlatList data={filterOptions} horizontal={true} showsHorizontalScrollIndicator={false} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} onPress={() => console.log('option clicked')}/>
+          </View>
+        )
+      }/>
+      case 'sliders':
+        return <FlatList data={AdjustmentsOptionData} horizontal={true} showsHorizontalScrollIndicator={false} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                  <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} onPress={() => console.log('option clicked')}/>
+                </View>
+              )
+        }/>
+      case 'history':
+        return <FlatList data={AdjustmentsOptionData} horizontal={true} showsHorizontalScrollIndicator={false} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                  <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} onPress={() => console.log('option clicked')}/>
+                </View>
+              )
+      }/>
+      default:
+        return null;
+    }
+  }
+
   render() {
-    return <FlatList horizontal={true} showsHorizontalScrollIndicator={false} data={data} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
+    // this.props.type will tell option list which list to render
+    return (
+      this.renderOptions(this.props.type)
       
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        {/* On press will open another popup window*/}
-        <Option text={obj.item.text || null} iconName={obj.item.iconName || null} onPress={() => console.log('option clicked')}/>
-      </View>
-      )
-    }/>
+    )
     
   }
 }

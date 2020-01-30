@@ -40,11 +40,13 @@ export default class Editor extends Component {
             width: result.width,
             manip: result,
             tabActive: true, // you can only have one tab active at a time
-            scrollerType: 'sliders'
+            scrollerType: {type: 'sliders'}
          });
     }
-    handleOption = (type) => {
-        this.setState({ scrollerType: {type: type}, tabActive: !this.state.tabActive})
+    // Will handle which set of options to show to the user
+    handleSetOfOptions = (type) => {
+        console.log(type, " was pressed")
+        this.setState({ scrollerType: {type: type}})
     } 
     
     _renderImage = () => {
@@ -66,8 +68,8 @@ export default class Editor extends Component {
         return (
             <View >
                 {this._renderImage()}
-                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type || 'sliders'} active={this.state.tabActive}/>  : null}
-                <TabBar onPressHandler={this.handleOption}/>
+                <Scroller type={this.state.scrollerType.type || 'sliders'} /> 
+                <TabBar onPressHandler={this.handleSetOfOptions} type={this.state.scrollerType.type } />
             </View>
         )
     }

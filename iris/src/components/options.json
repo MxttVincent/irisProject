@@ -1,33 +1,38 @@
 [
   {
-    "type": "filter",
+    "type": "adjustment",
     "text": "contrast",
     "iconName": "adjust"
   },
   {
-    "type": "filter",
+    "type": "adjustment",
     "text": "saturation",
     "iconName": "sun-o"
   },
   {
-    "type": "filter",
+    "type": "adjustment",
     "text": "Crop",
     "iconName": "crop"
   },
   {
-    "type": "filter",
-    "text": "example 4"
+    "type": "adjustment",
+    "text": "Exposure",
+    "iconName": "lightbulb-o"
   },
   {
-    "type": "filter",
-    "text": "example 5"
+    "type": "adjustment",
+    "text": "Highlights"
   },
   {
-    "type": "filter",
-    "text": "example 6"
+    "type": "adjustment",
+    "text": "Shadows"
   },
   {
-    "type": "filter",
-    "text": "example 7"
+    "type": "adjustment",
+    "text": "Whites"
+  },
+  {
+    "type": "adjustment",
+    "text": "Blacks"
   }
 ]
