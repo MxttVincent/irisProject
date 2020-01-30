@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class TabBar extends React.Component {
@@ -20,12 +20,15 @@ export default class TabBar extends React.Component {
                 size={32} 
                 onPress={() => this.handleTabPick("filter")}
                />
+               <Text>Filters</Text>
           </View>
           <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
               <Icon name="sliders" size={32} onPress={() => this.handleTabPick("sliders")}/>
+              <Text>Adjustments</Text>
           </View>
           <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
               <Icon name="history" size={32} onPress={() => this.handleTabPick("history")}/>
+              <Text>history</Text>
           </View>
       </View>
       )

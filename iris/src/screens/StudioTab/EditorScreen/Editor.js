@@ -27,8 +27,8 @@ export default class Editor extends Component {
             manip: null,
             _width: 300,
             _height: 300,
-            tabActive: false,
-            scrollerType: {type: null}
+            tabActive: true,
+            scrollerType: {type: 'sliders'}
         }
     }
 
@@ -39,14 +39,11 @@ export default class Editor extends Component {
             height: result.height,
             width: result.width,
             manip: result,
-            tabActive: false, // you can only have one tab active at a time
-            scrollerType: null
+            tabActive: true, // you can only have one tab active at a time
+            scrollerType: 'sliders'
          });
-         console.log(Dimensions.get('window').width);
     }
     handleOption = (type) => {
-        console.log('handle option runs')
-        console.log(type);
         this.setState({ scrollerType: {type: type}, tabActive: !this.state.tabActive})
     } 
     
@@ -66,11 +63,10 @@ export default class Editor extends Component {
     
 
     render() {
-        console.log("editor rendered")
         return (
             <View >
                 {this._renderImage()}
-                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type} active={this.state.tabActive}/>  : null}
+                {this.state.tabActive ? <Scroller type={this.state.scrollerType.type || 'sliders'} active={this.state.tabActive}/>  : null}
                 <TabBar onPressHandler={this.handleOption}/>
             </View>
         )
