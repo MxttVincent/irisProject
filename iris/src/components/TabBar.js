@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class TabBar extends React.Component {
@@ -13,24 +13,41 @@ export default class TabBar extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
+          <View style={styles.tabView}>
               <Icon 
-                ref={(ref) => this.icon = ref} 
                 name="filter" 
-                size={32} 
+                size={28} 
                 onPress={() => this.handleTabPick("filter")}
                />
-               <Text>Filters</Text>
+               <Text style={styles.title}>Filters</Text>
           </View>
-          <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-              <Icon name="sliders" size={32} onPress={() => this.handleTabPick("sliders")}/>
-              <Text>Adjustments</Text>
+          <View style={styles.tabView}>
+              <Icon name="sliders" size={28} onPress={() => this.handleTabPick("sliders")}/>
+              <Text style={styles.title}>Adjustments</Text>
           </View>
-          <View style={{flex: 1, width: 50, height: 50, justifyContent: "center", alignItems: "center"}}>
-              <Icon name="history" size={32} onPress={() => this.handleTabPick("history")}/>
-              <Text>history</Text>
+          <View style={styles.tabView}>
+              <Icon name="history" size={28} onPress={() => this.handleTabPick("history")}/>
+              <Text style={styles.title}>history</Text>
           </View>
       </View>
       )
   }
 }
+
+const styles = StyleSheet.create({
+  title : {
+    fontSize: 12,
+    marginTop: 7
+  },
+  tabView : {
+    flex: 1, 
+    width: 50, 
+    height: 50, 
+    justifyContent: "center", 
+    alignItems: "center", 
+    marginTop: 10
+  },
+  inActive : {
+    color: "red"
+  }
+})

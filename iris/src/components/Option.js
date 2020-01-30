@@ -7,7 +7,7 @@ export default Option = (props) => {
   return (
     
     <View style={{flex: 1, width: 75, height: 75, marginHorizontal: 10, justifyContent: "center", alignItems: "center"}}>
-        <Icon name={props.iconName} size={24} onPress={() => null}/>
+        <Icon name={props.iconName} size={18} onPress={() => null}/>
         <Text >{props.text}</Text>
     </View>
   )
