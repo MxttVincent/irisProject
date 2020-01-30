@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
-
+import Gallery from './StudioGallery';
 import IconNavigationRight from './IconNavigationRight';
 
 export default class Studio extends Component {
@@ -64,9 +64,9 @@ export default class Studio extends Component {
     
     render() {
         return (
-            <View >            
-         </View>
-            
+            <View >
+                <Gallery />            
+            </View> 
         )
     }
 }

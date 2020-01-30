@@ -1,6 +1,7 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createRootNavigator } from "./src/router"; // import stack & tab navigation
+import './src/screens/StudioTab/fixtimerbug';
 import firebase from './src/config/firebase';
 
 export default class App extends React.Component {

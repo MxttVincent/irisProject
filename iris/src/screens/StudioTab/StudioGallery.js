@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-import firebase from '../config/firebase';
+import firebase from '../../config/firebase';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
@@ -11,7 +11,7 @@ var storage = firebase.storage();
 // Create a storage reference from our storage service
 var storageRef = storage.ref();
 
-export default class Gallery extends React.Component {
+export default class StudioGallery extends React.Component {
 
   constructor(props) {
     super(props);
@@ -114,7 +114,7 @@ export default class Gallery extends React.Component {
   }
 
   
-
+  // key prop will beed to be fixed here
   render() {
     return (
       <View>
