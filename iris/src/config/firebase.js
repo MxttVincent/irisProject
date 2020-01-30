@@ -6,6 +6,10 @@ import * as firebase from "firebase/app";
 
 // Add the Firebase services that you want to use
 import "firebase/auth";
+<<<<<<< HEAD
+=======
+import "firebase/storage";
+>>>>>>> feature/IR-27-uploading-photos
 import "firebase/firestore";
 
 const firebaseConfig = {
