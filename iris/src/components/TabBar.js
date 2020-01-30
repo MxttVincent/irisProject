@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class TabBar extends React.Component {
@@ -13,22 +13,24 @@ export default class TabBar extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={styles.tabView}>
+          <TouchableOpacity style={styles.tabOption} onPress={() => this.handleTabPick("filter")}>
               <Icon 
-                name="filter" 
-                size={28} 
-                onPress={() => this.handleTabPick("filter")}
-               />
+              name="filter" 
+              size={28} />
                <Text style={styles.title}>Filters</Text>
-          </View>
-          <View style={styles.tabView}>
-              <Icon name="sliders" size={28} onPress={() => this.handleTabPick("sliders")}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tabOption} onPress={() => this.handleTabPick("sliders")}>
+              <Icon 
+              name="sliders" 
+              size={28} />
               <Text style={styles.title}>Adjustments</Text>
-          </View>
-          <View style={styles.tabView}>
-              <Icon name="history" size={28} onPress={() => this.handleTabPick("history")}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tabOption} onPress={() => this.handleTabPick("history")}>
+              <Icon 
+              name="history" 
+              size={28} />
               <Text style={styles.title}>history</Text>
-          </View>
+          </TouchableOpacity>
       </View>
       )
   }
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 7
   },
-  tabView : {
+  tabOption : {
     flex: 1, 
     width: 50, 
     height: 50, 
