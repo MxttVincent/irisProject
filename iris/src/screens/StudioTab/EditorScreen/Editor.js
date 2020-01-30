@@ -45,7 +45,6 @@ export default class Editor extends Component {
     }
     // Will handle which set of options to show to the user
     handleSetOfOptions = (type) => {
-        console.log(type, " was pressed")
         this.setState({ scrollerType: {type: type}})
     } 
     
@@ -68,7 +67,7 @@ export default class Editor extends Component {
         return (
             <View >
                 {this._renderImage()}
-                <Scroller type={this.state.scrollerType.type || 'sliders'} /> 
+                <Scroller type={this.state.scrollerType.type} /> 
                 <TabBar onPressHandler={this.handleSetOfOptions} type={this.state.scrollerType.type } />
             </View>
         )

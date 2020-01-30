@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import AdjusmentOption from './AdjusmentOption';
 
 // import data to generate lists of options from it
@@ -13,23 +13,23 @@ export default class OptionList extends React.Component {
     switch (type) {
       case 'filter':
         return <FlatList data={filterOptions} horizontal={true} showsHorizontalScrollIndicator={false} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} onPress={() => console.log('option clicked')}/>
-          </View>
+          <TouchableOpacity style={{flex: 1, flexDirection: 'row'}} onPress={() => console.log('option clicked')}>
+            <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} />
+          </TouchableOpacity>
         )
       }/>
       case 'sliders':
         return <FlatList data={AdjustmentsOptionData} horizontal={true} showsHorizontalScrollIndicator={false} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} onPress={() => console.log('option clicked')}/>
-                </View>
+                <TouchableOpacity style={{flex: 1, flexDirection: 'row'}} onPress={() => console.log('option clicked')}>
+                  <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} />
+                </TouchableOpacity>
               )
         }/>
       case 'history':
         return <FlatList data={AdjustmentsOptionData} horizontal={true} showsHorizontalScrollIndicator={false} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
-                <View style={{flex: 1, flexDirection: 'row'}}>
+                <TouchableOpacity style={{flex: 1, flexDirection: 'row'}} onPress={() => console.log('option clicked')}>
                   <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} onPress={() => console.log('option clicked')}/>
-                </View>
+                </TouchableOpacity>
               )
       }/>
       default:
