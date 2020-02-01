@@ -39,7 +39,9 @@ export default class Studio extends Component {
             image: null,
             height: null,
             width: null,
-            sliderValue : 0
+            contrast: 1,
+            saturation: 1,
+            brightness: 1
         };
     }
 
@@ -78,11 +80,25 @@ export default class Studio extends Component {
     render() {
         return (
         <View>
-            <Example blue={this.state.sliderValue}/>
+            <Example contrast={this.state.contrast} saturation={this.state.saturation} brightness={this.state.brightness} />
+            <Text>contrast</Text>
             <Slider
-                value={this.state.sliderValue}
-                onValueChange={sliderValue => this.setState({ sliderValue })}
+                value={this.state.contrast}
+                onValueChange={value => this.setState({ contrast: value })}
             />
+
+            <Text>saturation</Text>
+            <Slider
+                value={this.state.saturation}
+                onValueChange={value => this.setState({ saturation: value })}
+            />
+
+            <Text>brightness</Text>
+            <Slider
+                value={this.state.brightness}
+                onValueChange={value => this.setState({ brightness: value })}
+            />
+
         </View>
             
         )
