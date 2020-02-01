@@ -4,6 +4,10 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
+import Example from './HelloBlue';
+
+import { Slider } from 'react-native-elements';
+
 import IconNavigationRight from '../../components/IconNavigationRight';
 
 export default class Studio extends Component {
@@ -34,7 +38,8 @@ export default class Studio extends Component {
         this.state = {
             image: null,
             height: null,
-            width: null
+            width: null,
+            sliderValue : 0
         };
     }
 
@@ -72,8 +77,13 @@ export default class Studio extends Component {
     
     render() {
         return (
-        <View >            
-         </View>
+        <View>
+            <Example blue={this.state.sliderValue}/>
+            <Slider
+                value={this.state.sliderValue}
+                onValueChange={sliderValue => this.setState({ sliderValue })}
+            />
+        </View>
             
         )
     }
