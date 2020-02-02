@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from 'react-native';
 import { Shaders, Node, GLSL } from "gl-react";
 import { Surface } from "gl-react-expo";
 
