@@ -27,8 +27,7 @@ export default class Editor extends Component {
             manip: null,
             _width: 300,
             _height: 300,
-            tabActive: true,
-            scrollerType: {type: 'sliders'}
+            scrollerType: {type: 'sliders', isShowing: true}
         }
     }
 
@@ -39,8 +38,7 @@ export default class Editor extends Component {
             height: result.height,
             width: result.width,
             manip: result,
-            tabActive: true, // you can only have one tab active at a time
-            scrollerType: {type: 'sliders'}
+            scrollerType: {type: 'sliders', isShowing: true}
          });
     }
     // Will handle which set of options to show to the user
@@ -67,7 +65,10 @@ export default class Editor extends Component {
         return (
             <View >
                 {this._renderImage()}
-                <Scroller type={this.state.scrollerType.type} /> 
+                {this.state.scrollerType.isShowing 
+                    ? <Scroller type={this.state.scrollerType.type} isShowing={this.state.scrollerType.isShowing}/> 
+                    : null 
+                }
                 <TabBar onPressHandler={this.handleSetOfOptions} type={this.state.scrollerType.type } />
             </View>
         )
