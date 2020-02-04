@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Dimensions, ScrollView, Text, TextInput, View, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
-import * as ImageManipulator from 'expo-image-manipulator';
+import {View, StyleSheet, Image } from 'react-native';
 
 import IconNavigationRight from '../../../components/IconNavigationRight';
 
@@ -27,7 +26,10 @@ export default class Editor extends Component {
             manip: null,
             _width: 300,
             _height: 300,
-            scrollerType: {type: 'sliders', isShowing: true}
+            scroller: {
+                type: 'sliders', 
+                areOptionsShowing: true
+            }
         }
     }
 
@@ -38,14 +40,12 @@ export default class Editor extends Component {
             height: result.height,
             width: result.width,
             manip: result,
-            scrollerType: {type: 'sliders', isShowing: true}
+            scroller: {type: 'sliders', areOptionsShowing: true}
          });
     }
-    // Will handle which set of options to show to the user
-    handleSetOfOptions = (type) => {
-        this.setState({ scrollerType: {type: type}})
-    } 
+
     
+    // Renders the image on the editor screen.
     _renderImage = () => {
         if (this.state.manip != null){
             return (
@@ -59,17 +59,37 @@ export default class Editor extends Component {
         }
     };
 
-    
+    // Event handler to display a set of options based on a type. The type depends on which tab the user clicked.
+    handleSetOfOptions = (type) => {
+        this.setState({ scroller: {
+            type: type,
+            areOptionsShowing: true
+        }
+    })
+    } 
+    // Event handler when a user presses on an option in OptionList.js
+    iconPressHandler = () => {
+        // update the state of the scroller, ensuring all object properties are kept or atleast updated.
+        this.setState({
+            scroller: {
+                ...this.state.scroller,
+                areOptionsShowing: false
+            }
+        }, () => {
+            console.log('scroller state updated', this.state.scroller);
+        })
+    }
 
     render() {
         return (
             <View >
                 {this._renderImage()}
-                {this.state.scrollerType.isShowing 
-                    ? <Scroller type={this.state.scrollerType.type} isShowing={this.state.scrollerType.isShowing}/> 
-                    : null 
-                }
-                <TabBar onPressHandler={this.handleSetOfOptions} type={this.state.scrollerType.type } />
+                <Scroller 
+                    type={this.state.scroller.type} 
+                    areOptionsShowing={this.state.scroller.areOptionsShowing} 
+                    iconPressHandler={this.iconPressHandler}
+                /> 
+                <TabBar onPressHandler={this.handleSetOfOptions} type={this.state.scroller.type } />
             </View>
         )
     }
