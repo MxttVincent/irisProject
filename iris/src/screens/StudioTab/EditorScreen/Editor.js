@@ -3,8 +3,8 @@ import {View, StyleSheet, Image } from 'react-native';
 
 import IconNavigationRight from '../../../components/IconNavigationRight';
 
-import TabBar from '../../../components/TabBar';
-import Scroller from '../../../components/Scroller';
+import TabBar from '../../../components/editor/TabBar';
+import Scroller from '../../../components/editor/Scroller';
 
 export default class Editor extends Component {
     static navigationOptions = {
@@ -80,6 +80,13 @@ export default class Editor extends Component {
         })
     }
 
+    closeSlider = () => {
+        this.setState({scroller: {
+            ...this.state.scroller,
+            areOptionsShowing: true
+        }})
+    }
+
     render() {
         return (
             <View >
@@ -88,6 +95,7 @@ export default class Editor extends Component {
                     type={this.state.scroller.type} 
                     areOptionsShowing={this.state.scroller.areOptionsShowing} 
                     iconPressHandler={this.iconPressHandler}
+                    closeSlider={this.closeSlider}
                 /> 
                 <TabBar onPressHandler={this.handleSetOfOptions} type={this.state.scroller.type } />
             </View>

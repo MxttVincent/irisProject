@@ -3,8 +3,8 @@ import {View, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import AdjusmentOption from './AdjusmentOption';
 
 // import data to generate lists of options from it
-import AdjustmentsOptionData from './options.json';
-import filterOptions from './filterOptions.json';
+import AdjustmentsOptionData from '../../data/options.json';
+import filterOptions from '../../data/filterOptions.json';
 
 
 // Renders a list of options for EditorScreen.
