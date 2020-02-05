@@ -30,26 +30,23 @@ void main() {
 //   }
 // }
 
-export const Saturate = ({ contrast, saturation, brightness, children }) => (
+export const Saturate = ({ contrast, saturation, brightness, imageUri }) => (
     <Node
     shader={shaders.Saturate}
-    uniforms={{ contrast, saturation, brightness, t: children }}
+    uniforms={{ contrast, saturation, brightness, t: imageUri }}
   />);
 
 export default class Example extends React.Component {
   render() {
+    let imageUri = this.props.imageUri;
     return (
-      <Surface style={{ width: 300, height:300}}>
-        <Saturate {...this.props}>
-          {{uri: 'https://i.imgur.com/JXetxQh.jpg'}}
+      <Surface style={{ width: 450, height: 450}}>
+        <Saturate {...this.props} imageUri={imageUri}>
+          {imageUri}
         </Saturate>
       </Surface>
       );
     }
     
   }
-  
-  // example 1.0
-  // <HelloBlue blue={this.props.blue} />
-  
   
