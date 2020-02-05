@@ -14,9 +14,11 @@ export default class OptionList extends React.Component {
 
   }
 
-  // An event handler for each icon press
-  handleIconPress = () => {
-    this.props.iconPressHandler();
+  // A handler function invoked when an icon is pressed by the user.
+  // @param optionValue :: String - the text/name of the icon that was pressed
+  handleIconPress = (optionValue) => {
+    // Invokes and Passes the optionValue to a handler function in this components Parent. (Scroller)
+    this.props.iconPressHandler(optionValue);
   }
   
 
@@ -31,7 +33,7 @@ switch (type) {
   }/>
   case 'sliders':
     return <FlatList data={AdjustmentsOptionData} horizontal={true} showsHorizontalScrollIndicator={false} keyExtractor={(obj, index) => index.toString()} renderItem={(obj) => (
-            <TouchableOpacity style={{flex: 1, flexDirection: 'row'}} onPress={() => this.handleIconPress()}>
+            <TouchableOpacity style={{flex: 1, flexDirection: 'row'}} onPress={() => this.handleIconPress(obj.item.text)}>
               <AdjusmentOption text={obj.item.text || null} iconName={obj.item.iconName || null} />
             </TouchableOpacity>
           )
