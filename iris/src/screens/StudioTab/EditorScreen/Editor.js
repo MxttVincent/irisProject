@@ -132,6 +132,23 @@ class Editor extends Component {
         )
         : null
     }
+
+    // Renders the image on the editor screen.
+    _renderImage = () => {
+        if (this.state.manip != null){
+            return (
+                <View style={{ marginVertical: 20, alignItems: 'center', justifyContent: 'center' }}>
+                    <Example 
+                        contrast={this.state.imgProperties.contrast} 
+                        saturation={this.state.imgProperties.saturation} 
+                        brightness={this.state.imgProperties.brightness} 
+                        imageUri={{uri: `${this.state.uri }`}}
+                    />
+                </View>
+            );
+        }
+    };
+
 }
 
 // Exports with HOC to fix react lifecycles in mobile navigation
