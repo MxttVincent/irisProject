@@ -3,15 +3,10 @@ import {View, Text, StyleSheet, Button, TouchableOpacity, Image, CameraRoll} fro
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-import { withNavigationFocus } from 'react-navigation';
-
-import Example from './HelloBlue';
-
-import { Slider } from 'react-native-elements';
 
 import IconNavigationRight from '../../components/IconNavigationRight';
 
- class Studio extends Component {
+ export default class Studio extends Component {
     
     static navigationOptions = ({navigation}) => {
         const { params = {} } = navigation.state;
@@ -79,30 +74,9 @@ import IconNavigationRight from '../../components/IconNavigationRight';
     }
     
     render() {
-        return this.props.isFocused 
-                ? 
-                <View>
-                <Example contrast={this.state.contrast} saturation={this.state.saturation} brightness={this.state.brightness} />
-                        <Text>contrast</Text>
-                        <Slider
-                        value={this.state.contrast}
-                        onValueChange={value => this.setState({ contrast: value })}
-                        />
-
-                        <Text>saturation</Text>
-                        <Slider
-                        value={this.state.saturation}
-                        onValueChange={value => this.setState({ saturation: value })}
-                        />
-
-                        <Text>brightness</Text>
-                        <Slider
-                        value={this.state.brightness}
-                        onValueChange={value => this.setState({ brightness: value })}
-                        />
+        return <View>
                 </View>
                 
-                : null
     }
 }
 
@@ -112,5 +86,3 @@ const styles = StyleSheet.create({
         position: "absolute"
     }
 })
-// Exports with HOC to fix react lifecycles in mobile navigation
-export default withNavigationFocus(Studio); 
