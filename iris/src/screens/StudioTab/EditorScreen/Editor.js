@@ -54,23 +54,6 @@ class Editor extends Component {
          });
     }
 
-    
-    // Renders the image on the editor screen.
-    _renderImage = () => {
-        if (this.state.manip != null){
-            return (
-                <View style={{ marginVertical: 20, alignItems: 'center', justifyContent: 'center' }}>
-                    <Example 
-                        contrast={this.state.imgProperties.contrast} 
-                        saturation={this.state.imgProperties.saturation} 
-                        brightness={this.state.imgProperties.brightness} 
-                        imageUri={{uri: `${this.state.uri }`}}
-                    />
-                </View>
-            );
-        }
-    };
-
     // Event handler to display a set of options based on a type. The type depends on which tab the user clicked.
     handleSetOfOptions = (type) => {
         this.setState({ scroller: {
@@ -114,7 +97,8 @@ class Editor extends Component {
             areOptionsShowing: true
         }})
     }
-
+    
+    // The editor screens render function. 
     render() {
         return this.props.isFocused ? (
             <View >
@@ -123,7 +107,7 @@ class Editor extends Component {
                     type={this.state.scroller.type} 
                     areOptionsShowing={this.state.scroller.areOptionsShowing} 
                     iconPressHandler={this.adjustmentOptionPress}
-                    imgPropertyValues={this.state.imgProperties}
+                    currentSliderValue={this.state.imgProperties[this.state.scroller.currentOptionSelected]}
                     handleSliderChange={this.handleSliderChange}
                     closeSlider={this.closeSlider}
                 /> 
