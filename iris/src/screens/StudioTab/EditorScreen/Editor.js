@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View, StyleSheet, Image } from 'react-native';
+import {View, StyleSheet, Image, CameraRoll } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 
 
@@ -9,17 +9,19 @@ import Example from '../HelloBlue';
 
 
 import TabBar from '../../../components/editor/TabBar';
-import Scroller from '../../../components/editor/Scroller';
+import Scroller from '../../../components/editor/Scroller'; 
 
 class Editor extends Component {
-    static navigationOptions = {
-        title: 'Editor',
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state;
+        return {
         headerRight: () => (
             <IconNavigationRight 
             name="save"
-            onPress={() => alert("you just saved the image! nah jk you didnt do nothing")}
-            />
-            )
+            onPress={() => params.savePhoto()}
+        
+            />)}
+            
     };
     
     constructor(props) {
@@ -45,6 +47,9 @@ class Editor extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.setParams({
+            savePhoto: this.savePhoto
+        });
         let result = this.props.navigation.state.params.result; 
         this.setState({ 
             uri: result.uri,
@@ -53,6 +58,17 @@ class Editor extends Component {
             manip: result,
          });
     }
+
+    savePhoto = () => {
+        CameraRoll.saveToCameraRoll(this.state.uri,'photo').then(image => {
+            // on success
+            console.log(image);
+        }).catch(error => {
+          console.log(error);
+        })
+        
+    }
+   
 
     // Event handler to display a set of options based on a type. The type depends on which tab the user clicked.
     handleSetOfOptions = (type) => {

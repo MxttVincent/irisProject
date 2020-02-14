@@ -4,16 +4,10 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
-<<<<<<< HEAD
 import Gallery from './StudioGallery';
 import IconNavigationRight from '../../components/IconNavigationRight';
 
 export default class Studio extends Component {
-=======
-import IconNavigationRight from '../../components/IconNavigationRight';
-
- export default class Studio extends Component {
->>>>>>> dde371203d52fe41e6738ec7bdceaa267e8ba3d2
     
     static navigationOptions = ({navigation}) => {
         const { params = {} } = navigation.state;
@@ -81,17 +75,11 @@ import IconNavigationRight from '../../components/IconNavigationRight';
     }
     
     render() {
-<<<<<<< HEAD
         return (
             <View >
                 <Gallery />            
             </View> 
         )
-=======
-        return <View>
-                </View>
-                
->>>>>>> dde371203d52fe41e6738ec7bdceaa267e8ba3d2
     }
 }
 
