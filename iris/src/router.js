@@ -10,7 +10,7 @@ import Profile from './screens/ProfileTab/Profile';
 import EditProfile from './screens/ProfileTab/EditProfile';
 import Camera from './screens/StudioTab/Camera';
 import Studio from './screens/StudioTab/Studio';
-import Editor from './screens/StudioTab/Editor';
+import Editor from './screens/StudioTab/EditorScreen/Editor';
 
 import { createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
