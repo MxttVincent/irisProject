@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 <<<<<<< HEAD
 import Gallery from './StudioGallery';
-import IconNavigationRight from './IconNavigationRight';
+import IconNavigationRight from '../../components/IconNavigationRight';
 
 export default class Studio extends Component {
 =======
