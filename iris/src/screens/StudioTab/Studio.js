@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import {View, Text, StyleSheet, Button, TouchableOpacity, Image, CameraRoll} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
 import Gallery from './StudioGallery';
-import IconNavigationRight from './IconNavigationRight';
+import IconNavigationRight from '../../components/IconNavigationRight';
 
 export default class Studio extends Component {
     
@@ -14,19 +14,33 @@ export default class Studio extends Component {
         return {
             title: "Studio",
             headerRight: () => (
-                <IconNavigationRight 
-                addPhoto={params.addPhoto} 
-                navigation={navigation}/>
+                <View style={{flexDirection: "row", display: "flex"}}>
+                    <IconNavigationRight
+                        onPress={() => navigation.navigate('Camera')}
+                        name="camera" 
+                    />    
+                    <IconNavigationRight 
+                        onPress={params.addPhoto}
+                        name="plus" 
+                    />
+                </View>
             )
             
         };
     };
 
-    state = {
-        image: null,
-        height: null,
-        width: null
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            image: null,
+            height: null,
+            width: null,
+            contrast: 1,
+            saturation: 1,
+            brightness: 1
+        };
+    }
 
     componentDidMount() {
         this.getPermissionAsync();
@@ -46,18 +60,16 @@ export default class Studio extends Component {
     openGallery = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             //Only allow images to be selected
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
         });
-    
-        console.log(result);
-    
+        
         if (!result.cancelled) {
-          this.setState({ 
-              image: result.uri,
-              height: result.height,
-              width: result.width
-        });
+            this.setState({ 
+                image: result.uri,
+                height: result.height,
+                width: result.width
+            });
             this.props.navigation.navigate('Editor', {result});
         }
     }
@@ -77,5 +89,3 @@ const styles = StyleSheet.create({
         position: "absolute"
     }
 })
-
-
