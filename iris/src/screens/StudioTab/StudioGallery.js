@@ -30,50 +30,32 @@ export default class StudioGallery extends React.Component {
   }
 
 
-  loadImageLibrary = async () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-          //Only allow images to be selected
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: false,
-        aspect: [4, 3],
-        allowsMultipleSelection: true // web only
-      });
-      console.log(result);
-      // if the user selects an image
-      if (!result.cancelled) {
-        this.setState({ 
-            image: result.uri,
-            height: result.height,
-            width: result.width
-        });
-      }
-  }
-
-  uploadImage = async (uid) => {
-    // fetch the image uri
-    const response = await fetch(this.state.image);
-    // create a BINARY LARGE OBJECT (Blob)
-    const blob = await response.blob();
-    // store the images filename
-    const filename = blob.data.name;
-    // create a reference where the image will live in storage
-    let imagesRef = storageRef.child(`users/${uid}/${filename}`);
+  // uploads an image to firebase storage. using storage references
+  // uploadImage = async (uid) => {
+  //   // fetch the image uri
+  //   const response = await fetch(this.state.image);
+  //   // create a BINARY LARGE OBJECT (Blob)
+  //   const blob = await response.blob();
+  //   // store the images filename
+  //   const filename = blob.data.name;
+  //   // create a reference where the image will live in storage
+  //   let imagesRef = storageRef.child(`users/${uid}/${filename}`);
     
-    const task = imagesRef.put(blob);
-    // Upload the blob/image to the referred location
-    task.then((snapshot) => {
-      console.log(snapshot.state);
-      console.log("image uploaded successfully");
-      this.setState({
-        image: null,
-        height: null,
-        width: null
-      });
-    }).catch(error => {
-      console.log(error)
-    })
+  //   const task = imagesRef.put(blob);
+  //   // Upload the blob/image to the referred location
+  //   task.then((snapshot) => {
+  //     console.log(snapshot.state);
+  //     console.log("image uploaded successfully");
+  //     this.setState({
+  //       image: null,
+  //       height: null,
+  //       width: null
+  //     });
+  //   }).catch(error => {
+  //     console.log(error)
+  //   })
     
-  }
+  // }
 
   fetchPhotos = (uid) => {
     const listRef = storageRef.child(`users/${uid}`);
@@ -98,37 +80,29 @@ export default class StudioGallery extends React.Component {
     this.setState({showPostButton: !this.state.showPostButton})
 
   }
+  // This method needs to be refactored. This adds a dummy reference into the database.
+  // onPublishPhoto = () => {
+  //   const db = firebase.firestore();
 
-  onPublishPhoto = () => {
-    const db = firebase.firestore();
-
-    db.collection("posts").add({
-      postName: "initial test"
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
-  }
+  //   db.collection("posts").add({
+  //     postName: "initial test"
+  //   })
+  //   .then(function(docRef) {
+  //       console.log("Document written with ID: ", docRef.id);
+  //   })
+  //   .catch(function(error) {
+  //       console.error("Error adding document: ", error);
+  //   });
+  // }
 
   
   // key prop will beed to be fixed here
   render() {
     return (
       <View>
-        {this.state.image 
-          ? <Text>You have an image selected ready to upload</Text> 
-          : <Text>No Image Selected, please select an image</Text> }
 
-        {this.state.image 
-          ? <Button title="Upload your selected photo to storage" onPress={() => this.uploadImage(this.state.uid)}/>
-          : <Button title="Pick an image from your library" onPress={() => this.loadImageLibrary()} />
-        }
 
         <View style={styles.photoArea}>
-          <Text>current photos in the cloud: </Text>
           {this.state.photos.map(photo =>{ 
               return (
                 <View>
