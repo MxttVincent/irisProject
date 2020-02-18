@@ -12,7 +12,7 @@ import TabBar from '../../../components/editor/TabBar';
 import Scroller from '../../../components/editor/Scroller'; 
 
 class Editor extends Component {
-    static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({route, navigation}) => {
         const {params = {}} = navigation.state;
         return {
         headerRight: () => (
@@ -47,17 +47,28 @@ class Editor extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.route + " is the route");
         this.props.navigation.setParams({
             savePhoto: this.savePhoto
         });
-        let result = this.props.navigation.state.params.result; 
+        let {photoUri, result} = this.props.navigation.state.params; 
+        let img = null;
+        if (result) {
+             const {uri} = result;
+             img = uri;
+        } else if (photoUri) {
+             img = photoUri
+        }
+        console.log(result)
         this.setState({ 
-            uri: result.uri,
-            height: result.height,
-            width: result.width,
-            manip: result,
+            uri: img,
+            height: 100,
+            width: 100,
+            manip: img,
          });
     }
+
+    
 
     savePhoto = () => {
         CameraRoll.saveToCameraRoll(this.state.uri,'photo').then(image => {
