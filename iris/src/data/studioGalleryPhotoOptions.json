@@ -1,0 +1,26 @@
+[
+  {
+    "type": "save",
+    "optionTitle" : "Save Your Photo",
+    "optionIcon" : "nameOfIcon",
+    "optionDescription" : "Save this edit to your device."
+  },
+  {
+    "type": "saveAsPreset",
+    "optionTitle" : "Save as Preset",
+    "optionIcon" : "nameOfIcon",
+    "optionDescription" : "Save a custom preset for future use!"
+  },
+  {
+    "type": "publish",
+    "optionTitle" : "Publish Photo",
+    "optionIcon" : "nameOfIcon",
+    "optionDescription" : "Share your photo on your profile."
+  },
+  {
+    "type": "cloudSave",
+    "optionTitle" : "Save Photo to your Library",
+    "optionIcon" : "nameOfIcon",
+    "optionDescription" : "Be able to store your edit & come back later!"
+  }
+]

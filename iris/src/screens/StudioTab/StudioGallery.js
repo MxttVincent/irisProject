@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, StyleSheet, Image } from 'react-native';
+import {Modal, View, Text, Button, StyleSheet, Image, FlatList, Dimensions} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 import firebase from '../../config/firebase';
@@ -12,16 +12,14 @@ var storage = firebase.storage();
 var storageRef = storage.ref();
 
 export default class StudioGallery extends React.Component {
-
+ 
   constructor(props) {
     super(props);
     this.state = {
       image: null,
-      height: null,
-      width: null,
       uid: firebase.auth().currentUser.uid || null,
       photos: [],
-      showPostButton: false
+      modalVisible: false
     }
   }
 
@@ -75,11 +73,21 @@ export default class StudioGallery extends React.Component {
   } 
 
   // what happens when the user selects a photo.
-  onSelectPhoto = () => {
-    // toggle button display to publish
-    this.setState({showPostButton: !this.state.showPostButton})
+  handlePhotoLongPress = () => {
+    console.log(this.state.modalVisible);
+    this.setState({modalVisible: true}), () => {
+      console.log("state has been set");
+      return (
+        <View style={{marginTop: 22}}>
+            
+      </View>
+      )
+    };
 
+    // display a modal menu
+    
   }
+
   // This method needs to be refactored. This adds a dummy reference into the database.
   // onPublishPhoto = () => {
   //   const db = firebase.firestore();
@@ -95,40 +103,82 @@ export default class StudioGallery extends React.Component {
   //   });
   // }
 
-  
+  openCloudPhotoInEditor = (item) => {
+    console.log('user pressed photo ' + item + 'to view it')
+    // navigate to editor with the image passed to navigation params
+    this.props.navigation.navigate('Editor', {
+      photoUri: item
+    })
+  }
+
+  _renderPhoto = ({item, index, seperators}) => {
+    // item is the value of the photos data, in this case the uri link. 
+    return (
+      <TouchableOpacity onPress={() => this.openCloudPhotoInEditor(item)} onLongPress={() => this.handlePhotoLongPress() } >
+        <Image 
+          source={{uri: item}} 
+          style={{width: 125, height: 125, marginVertical: 5, marginHorizontal: 5}} 
+        />
+      </TouchableOpacity>
+    )
+  }
+
   // key prop will beed to be fixed here
   render() {
     return (
-      <View>
+      <View style={{marginTop: 22}}>
 
+        <Modal
+        animationType="fade"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => { this.setState({modalVisible: false}) }}
+        >
+        <View style={{marginTop: 100, backgroundColor: '#f7f7f7', height: 100, marginHorizontal: 20}}>
+          <View>
+            <Text>View</Text>
+            <Text> Edit</Text>
+            <Text>Remove this photo</Text>
+          </View>
+            </View>
+          </Modal>
 
         <View style={styles.photoArea}>
-          {this.state.photos.map(photo =>{ 
-              return (
-                <View>
-                  <TouchableOpacity onPress={() => this.onSelectPhoto() }>
-                    <Image 
-                    key={photo} 
-                    source={{uri: photo}} 
-                    style={{width: 100, height: 100, marginVertical: 5}} 
-                    />
-                    
-                </TouchableOpacity>
-                  {this.state.showPostButton 
-                    ? <Button title="publish" onPress={() => this.onPublishPhoto()}/> 
-                    : null}
-                </View>
-              )
-              
-          })}
+          <FlatList data={this.state.photos}  keyExtractor={item => item} renderItem={this._renderPhoto} horizontal={false} numColumns={3} columnWrapperStyle={styles.row}/>
+
+
+          
         </View>
       </View>
     )
   }
 
 }
+const screenWidth = Math.round(Dimensions.get('window').width);
+const numberOfColumns = 3;
+
 const styles = StyleSheet.create({
   photoArea: {
-    marginVertical: 50
+    marginVertical: 10,
+  },
+  row: {
+    flex: 1,
+    justifyContent: "space-around",
+    marginHorizontal: 5
   }
 })
+
+// {this.state.photos.map((val, index, arr) =>{ 
+          //   console.log('this is the array of photos', arr);
+          //     return (
+          //         <TouchableOpacity onPress={() => console.log('user pressed photo to view it')} onLongPress={() => this.handlePhotoLongPress() } key={index}>
+          //           <Image 
+          //           source={{uri: val}} 
+          //           style={{width: 100, height: 100, marginVertical: 5}} 
+          //           />
+                    
+          //       </TouchableOpacity>
+          //     )
+              
+              
+          // })}
