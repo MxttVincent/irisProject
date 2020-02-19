@@ -77,7 +77,7 @@ export default class Studio extends Component {
     render() {
         return (
             <View >
-                <Gallery />            
+                <Gallery navigation={this.props.navigation}/>            
             </View> 
         )
     }
