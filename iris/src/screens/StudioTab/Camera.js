@@ -2,32 +2,32 @@ import React from 'react';
 import {View, Text, StyleSheet, Button, TouchableOpacity, Image, CameraRoll} from 'react-native';
 import firebase from '../../config/firebase';
 import { Camera } from 'expo-camera';
+import IconNavigationRight from '../../components/IconNavigationRight';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 
-const Flip = () => {
+const Flip = (props) => {
   return (
     <TouchableOpacity
-    style={{
-      flex: 0.1,
-      alignSelf: 'flex-end',
-      alignItems: 'center',
-    }}
-    onPress={() => {
-      this.setState({
-        type:
-          this.state.type === Camera.Constants.Type.back
-            ? Camera.Constants.Type.front
-            : Camera.Constants.Type.back,
-      });
-    }}>
-    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+    style={styles.flipCameraButton}
+    onPress={() => props.flipCamera}>
+      <IconNavigationRight name="repeat" size={props.size} color={props.color} onPress={props.flipCamera}/>
   </TouchableOpacity>
   )
 }
 
-const Flash = () => {
-  return;
+
+
+const Flash = (props) => {
+  return (
+    <TouchableOpacity
+    style={styles.flashButton}
+    onPress={() => {
+        console.log('flash')
+    }}>
+      <IconNavigationRight name="bolt" size={props.size} color={props.color} onPress={() => console.log('icon press')}/>
+  </TouchableOpacity>
+  )
 }
 
 export default class openCamera extends React.Component {
@@ -71,6 +71,16 @@ export default class openCamera extends React.Component {
         }
       };
 
+      flipCamera = () => {
+        console.log('flipped')
+        this.setState({
+          type:
+            this.state.type === Camera.Constants.Type.back
+              ? Camera.Constants.Type.front
+              : Camera.Constants.Type.back,
+        });
+      }
+
       render() {
         const { hasCameraPermission } = this.state;
         if (hasCameraPermission === null) {
@@ -80,14 +90,15 @@ export default class openCamera extends React.Component {
         } else {
           return (
             <View style={{ flex: 1 }}>
+               
               <Camera 
               style={{ flex: 1 }} 
               type={this.state.type} 
               ref={ref => this.camera = ref}
               ratio={'16:9'}>
+                  <Flip size={30} color={'#fff'} />
+                <Flash size={30} color={'#fff'}/>
 
-                <Flip />
-                
                 <View
                   style={{
                     flex: 1,
@@ -97,7 +108,7 @@ export default class openCamera extends React.Component {
                     alignItems: 'flex-end'
                   }}>
                     
-                 
+                  {/* //Take photo button  */}
                     <TouchableOpacity
                     style={styles.takePhotoButton}
                     onPress={() => this.snap()}
@@ -105,9 +116,7 @@ export default class openCamera extends React.Component {
 
                 </View>
               </Camera>
-             <Image
-           source={{uri: this.state.uri}}
-         />
+             
             </View>
           );
         }
@@ -125,6 +134,19 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     bottom: 50
+  },
+  flashButton : {
+    position: 'absolute',
+    opacity: 1,
+    top: 20,
+    right: 20,
+  },
+  flipCameraButton : {
+    position: 'absolute',
+    opacity: 1,
+    bottom: 50,
+    right: 20,
+
   }
 });
 

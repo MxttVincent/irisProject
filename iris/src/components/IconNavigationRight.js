@@ -8,8 +8,8 @@ export default IconNavigationRight = (props) => {
       <View>
           <Icon style={styles.Icon} 
               name={props.name} 
-              size={24} 
-              color="#000" 
+              size={props.size || 24} 
+              color={props.color || "#000"}
               onPress={props.onPress}
             />
       </View>
