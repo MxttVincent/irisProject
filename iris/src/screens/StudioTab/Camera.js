@@ -5,10 +5,41 @@ import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
 
+const Flip = () => {
+  return (
+    <TouchableOpacity
+    style={{
+      flex: 0.1,
+      alignSelf: 'flex-end',
+      alignItems: 'center',
+    }}
+    onPress={() => {
+      this.setState({
+        type:
+          this.state.type === Camera.Constants.Type.back
+            ? Camera.Constants.Type.front
+            : Camera.Constants.Type.back,
+      });
+    }}>
+    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+  </TouchableOpacity>
+  )
+}
+
+const Flash = () => {
+  return;
+}
+
 export default class openCamera extends React.Component {
     static navigationOptions = {
         title: 'Camera',
         /* Camera Functionality */
+        headerStyle: {
+          headerTransparent: true,
+          backgroundColor: 'transparent',
+          zIndex: 100
+        },
+        
       };
     constructor(props){
 
@@ -25,6 +56,7 @@ export default class openCamera extends React.Component {
         const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
         this.setState({ hasCameraPermission: status === 'granted' });
       }
+
       snap = async () => {
         if (this.camera) {
           let photo = await this.camera.takePictureAsync();
@@ -53,40 +85,27 @@ export default class openCamera extends React.Component {
               type={this.state.type} 
               ref={ref => this.camera = ref}
               ratio={'16:9'}>
+
+                <Flip />
+                
                 <View
                   style={{
                     flex: 1,
                     backgroundColor: 'transparent',
                     flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'flex-end'
                   }}>
-                  <TouchableOpacity
-                    style={{
-                      flex: 0.1,
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                    }}
-                    onPress={() => {
-                      this.setState({
-                        type:
-                          this.state.type === Camera.Constants.Type.back
-                            ? Camera.Constants.Type.front
-                            : Camera.Constants.Type.back,
-                      });
-                    }}>
-                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-                  </TouchableOpacity>
+                    
+                 
+                    <TouchableOpacity
+                    style={styles.takePhotoButton}
+                    onPress={() => this.snap()}
+                     />
+
                 </View>
               </Camera>
-              <Button
-            title="Take photo"
-            onPress={() => this.snap()}
-            />
              <Image
-           
-           style={{
-             width: 300,
-             height: 100,
-           }}
            source={{uri: this.state.uri}}
          />
             </View>
@@ -95,7 +114,19 @@ export default class openCamera extends React.Component {
       }
     }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  takePhotoButton : {
+    position: 'absolute',
+    backgroundColor: 'white',
+    borderWidth: 10,
+    borderColor: 'white',
+    opacity: 0.2,
+    borderRadius: 50,
+    width: 100,
+    height: 100,
+    bottom: 50
+  }
+});
 
 
 
