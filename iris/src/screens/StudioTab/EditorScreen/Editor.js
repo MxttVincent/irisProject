@@ -60,12 +60,17 @@ class Editor extends Component {
     }
 
     savePhoto = () => {
+        // save to camera roll
         CameraRoll.saveToCameraRoll(this.state.uri,'photo').then(image => {
             // on success
             console.log(image);
         }).catch(error => {
           console.log(error);
         })
+        
+    }
+
+    renderSaveOptions = () => {
         
     }
    
