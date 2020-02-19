@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import {View, StyleSheet, Image, CameraRoll } from 'react-native';
+import {View, StyleSheet, Image, CameraRoll, Modal, Text, TouchableOpacity } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
+
+import ModalOption from "../../../components/ModalOption"
 
 
 import IconNavigationRight from '../../../components/IconNavigationRight';
@@ -18,7 +20,7 @@ class Editor extends Component {
         headerRight: () => (
             <IconNavigationRight 
             name="save"
-            onPress={() => params.savePhoto()}
+            onPress={() => params.handleSavePress()}
         
             />)}
             
@@ -42,14 +44,15 @@ class Editor extends Component {
                 contrast: 1,
                 saturation: 1,
                 brightness: 1
-            }
+            },
+            saveModalVisible: false
         }
     }
 
     componentDidMount() {
         console.log(this.props.route + " is the route");
         this.props.navigation.setParams({
-            savePhoto: this.savePhoto
+            handleSavePress: this.handleSavePress
         });
         let {photoUri, result} = this.props.navigation.state.params; 
         let img = null;
@@ -65,24 +68,33 @@ class Editor extends Component {
             height: 100,
             width: 100,
             manip: img,
+            saveModalVisible: false
          });
     }
 
     
-
     savePhoto = () => {
         // save to camera roll
+        console.log(this.state.uri)
+        // save an edited photo using https://projectseptemberinc.gitbooks.io/gl-react/content/docs/api/Surface.html
+
         CameraRoll.saveToCameraRoll(this.state.uri,'photo').then(image => {
-            // on success
-            console.log(image);
-        }).catch(error => {
-          console.log(error);
-        })
+                // on success
+                console.log("image is saved" + image);
+            }).catch(error => {
+                  console.log(error);
+                })
+                
+            }
+            
+    handleSavePress = () => {
+        console.log('save button was pressed');
+        this.renderSaveOptions();
         
     }
 
     renderSaveOptions = () => {
-        
+        this.setState({saveModalVisible: true});
     }
    
 
@@ -134,7 +146,22 @@ class Editor extends Component {
     render() {
         return this.props.isFocused ? (
             <View >
+                <Modal
+                animationType="fade"
+                transparent={true}
+                visible={this.state.saveModalVisible}
+                onRequestClose={() => { this.setState({saveModalVisible: false}) }}>
+                    <View style={{marginTop: 100, backgroundColor: '#f7f7f7', height: 100, marginHorizontal: 20}}>
+                        <View>
+                            <ModalOption />
+                            <Text>Save to cloud</Text>
+                            <Text>Share photo</Text>
+                        </View>
+                    </View>
+                </Modal>
+
                 {this._renderImage()}
+                
                 <Scroller 
                     type={this.state.scroller.type} 
                     areOptionsShowing={this.state.scroller.areOptionsShowing} 
