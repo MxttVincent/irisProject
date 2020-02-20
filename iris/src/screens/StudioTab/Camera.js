@@ -9,8 +9,8 @@ import * as FileSystem from 'expo-file-system';
 const Flip = (props) => {
   return (
     <TouchableOpacity
-    style={styles.flipCameraButton}
-    onPress={() => props.flipCamera}>
+    style={styles.flipCameraButton} 
+    onPress={props.onPress}>
       <IconNavigationRight name="repeat" size={props.size} color={props.color} onPress={props.flipCamera}/>
   </TouchableOpacity>
   )
@@ -96,7 +96,7 @@ export default class openCamera extends React.Component {
               type={this.state.type} 
               ref={ref => this.camera = ref}
               ratio={'16:9'}>
-                  <Flip size={30} color={'#fff'} />
+                <Flip size={30} color={'#fff'} onPress={this.flipCamera}/>
                 <Flash size={30} color={'#fff'}/>
 
                 <View
