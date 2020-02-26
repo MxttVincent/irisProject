@@ -5,30 +5,8 @@ import { Camera } from 'expo-camera';
 import IconNavigationRight from '../../components/IconNavigationRight';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
-
-const Flip = (props) => {
-  return (
-    <TouchableOpacity
-    style={styles.flipCameraButton} 
-    onPress={props.onPress}>
-      <IconNavigationRight name="repeat" size={props.size} color={props.color} onPress={props.flipCamera}/>
-  </TouchableOpacity>
-  )
-}
-
-
-
-const Flash = (props) => {
-  return (
-    <TouchableOpacity
-    style={styles.flashButton}
-    onPress={() => {
-        console.log('flash')
-    }}>
-      <IconNavigationRight name="bolt" size={props.size} color={props.color} onPress={() => console.log('icon press')}/>
-  </TouchableOpacity>
-  )
-}
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCoffee, faBorderAll } from '@fortawesome/free-solid-svg-icons'
 
 export default class openCamera extends React.Component {
     static navigationOptions = {
@@ -47,12 +25,15 @@ export default class openCamera extends React.Component {
         this.state = {
             hasCameraPermission: null,
             type: Camera.Constants.Type.back,
-            uri:''
+            uri:'',
+            flashActive: Camera.Constants.FlashMode.off
+            
           };
     }
     
     
       async componentDidMount() {
+        console.log(this.state.flashActive);
         const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
         this.setState({ hasCameraPermission: status === 'granted' });
       }
@@ -72,7 +53,6 @@ export default class openCamera extends React.Component {
       };
 
       flipCamera = () => {
-        console.log('flipped')
         this.setState({
           type:
             this.state.type === Camera.Constants.Type.back
@@ -80,6 +60,25 @@ export default class openCamera extends React.Component {
               : Camera.Constants.Type.back,
         });
       }
+// grid button
+      toggleFlash = (flashMode) => {
+        const flashModes = ['off','on','auto']
+        console.log(this.state.flashActive)
+          switch(flashMode){
+          case 2:
+            this.setState({flashActive: Camera.Constants.FlashMode.off})
+              break;
+          case 1:
+            this.setState({flashActive: Camera.Constants.FlashMode.auto})
+              break;
+          case 0:
+            this.setState({flashActive: Camera.Constants.FlashMode.on})
+              break;
+          default:
+            return null;
+          
+      }
+    }
 
       render() {
         const { hasCameraPermission } = this.state;
@@ -95,9 +94,9 @@ export default class openCamera extends React.Component {
               style={{ flex: 1 }} 
               type={this.state.type} 
               ref={ref => this.camera = ref}
-              ratio={'16:9'}>
-                <Flip size={30} color={'#fff'} onPress={this.flipCamera}/>
-                <Flash size={30} color={'#fff'}/>
+              ratio={'16:9'}
+              flashMode={this.state.flashActive}
+              >
 
                 <View
                   style={{
@@ -107,6 +106,22 @@ export default class openCamera extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'flex-end'
                   }}>
+
+                    {/* //Flash on/off/auto button  */}
+                  <TouchableOpacity
+                      style={styles.flashButton}
+                      onPress={() => this.toggleFlash(this.state.flashActive)}
+                      >
+                        <IconNavigationRight name="bolt" size={24} color={'#fff'} onPress={() => this.toggleFlash(this.state.flashActive)}/>
+                    </TouchableOpacity>
+
+
+                  {/* //Flip camera button  */}
+                  <TouchableOpacity
+                    style={styles.flipCameraButton}
+                    onPress={() =>  null}>
+                        <IconNavigationRight name="repeat" size={24} color={'#fff'} onPress={() => this.flipCamera()}/>
+                    </TouchableOpacity>
                     
                   {/* //Take photo button  */}
                     <TouchableOpacity
@@ -114,6 +129,20 @@ export default class openCamera extends React.Component {
                     onPress={() => this.snap()}
                      />
 
+                  {/* //Grid button  */}
+                  <TouchableOpacity
+                    style={styles.gridButton}
+                    onPress={() =>  null}>
+                        <FontAwesomeIcon icon={faBorderAll} size={24} color={'#fff'} />
+                    </TouchableOpacity>
+
+                  {/* //Gallery button  */}
+                  <TouchableOpacity
+                  style={styles.galleryBackground}>
+
+                  </TouchableOpacity>
+
+                  
                 </View>
               </Camera>
              
@@ -141,12 +170,31 @@ const styles = StyleSheet.create({
     top: 20,
     right: 20,
   },
+
+  gridButton : {
+    position: 'absolute',
+    opacity: 1,
+    top: 20,
+    left: 20,
+  },
+
   flipCameraButton : {
     position: 'absolute',
     opacity: 1,
-    bottom: 50,
-    right: 20,
+    bottom: 90,
+    right: 40,
 
+  },
+  galleryBackground : {
+    position: 'absolute',
+    backgroundColor: 'white',
+    borderWidth: 10,
+    borderColor: 'white',
+    opacity: 0.2,
+    width: 60,
+    height: 60,
+    bottom: 70,
+    left: 40,
   }
 });
 

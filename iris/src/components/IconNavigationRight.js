@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 // import icon bundle from font awesome pack
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default IconNavigationRight = (props) => {
   return (
       <View>
           <Icon style={styles.Icon} 
+          
               name={props.name} 
               size={props.size || 24} 
               color={props.color || "#000"}
