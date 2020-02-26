@@ -137,11 +137,18 @@ export default class openCamera extends React.Component {
                     </TouchableOpacity>
 
                   {/* //Gallery button  */}
-                  <TouchableOpacity
+                    {
+                      this.state.uri 
+                      ?  <Image 
+                      source={{uri: this.state.uri}} 
+                      style={styles.galleryImage} 
+                    />
+
+                  : <TouchableOpacity
                   style={styles.galleryBackground}>
-
                   </TouchableOpacity>
-
+                    }
+            
                   
                 </View>
               </Camera>
@@ -195,6 +202,17 @@ const styles = StyleSheet.create({
     height: 60,
     bottom: 70,
     left: 40,
+  },
+  
+  galleryImage : {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    bottom: 70,
+    left: 40,
+    opacity: 1,
+    borderWidth: 0.5,
+    borderColor: 'white',
   }
 });
 
