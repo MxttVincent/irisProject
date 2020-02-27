@@ -17,6 +17,7 @@ class Editor extends Component {
     static navigationOptions = ({route, navigation}) => {
         const {params = {}} = navigation.state;
         return {
+        title: "Editor",
         headerRight: () => (
             <IconNavigationRight 
             name="save"
