@@ -13,6 +13,7 @@ import Camera from './src/screens/Camera';
 import Studio from './src/screens/Studio';
 import ImageSelector from './src/screens/ImageSelector';
 import Gallery from './src/screens/Gallery';
+import Feed from './src/screens/Feed';
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -68,7 +69,7 @@ import Gallery from './src/screens/Gallery';
         }
         />
         <Button
-        title="sign out"
+        title="Sign out"
         onPress={() => firebase.auth().signOut()} 
         />
         <Button
@@ -77,6 +78,9 @@ import Gallery from './src/screens/Gallery';
         <Button 
         title="Go to User Gallery"
         onPress={() => this.props.navigation.navigate('Gallery')}/>
+        <Button 
+        title="Go to personal feed"
+        onPress={() => this.props.navigation.navigate('Feed')}/>
       </View>
     )
   }
@@ -92,7 +96,8 @@ const AppNavigator = createStackNavigator(
     Camera,
     Studio,
     ImageSelector,
-    Gallery
+    Gallery,
+    Feed
   },
   {
     defaultNavigationOptions: {

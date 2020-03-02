@@ -11,10 +11,10 @@ var storage = firebase.storage();
 // Create a storage reference from our storage service
 var storageRef = storage.ref();
 
-//Reference for accessing the database
+
 const db = firebase.firestore();
 
-export default class Gallery extends React.Component {
+export default class Feed extends React.Component {
 
   constructor(props) {
     super(props);
@@ -79,21 +79,16 @@ export default class Gallery extends React.Component {
   }
 
   fetchPhotos = (uid) => {
-    const listRef = storageRef.child(`users/${uid}`);
-    listRef.listAll().then(res => {
-      res.items.forEach(itemRef => {
-        itemRef.getDownloadURL().then(url => {
-          this.setState({photos: [...this.state.photos, url]});
-        }).catch(error => {
-          console.log(error);
-        }) 
-
+    const listRef = db.doc("users/" + uid).collection("posts")
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          let dataUri = doc.data().uri;
+          this.setState({photos: [...this.state.photos, dataUri]});
       })
-    }).catch(err => {
-      console.log(err);
-    })
-    
-  } 
+  })
+  }
 
   // what happens when the user selects a photo.
   onSelectPhoto = () => {
@@ -103,6 +98,8 @@ export default class Gallery extends React.Component {
   }
 
   onPublishPhoto = (photo) => {
+    
+
     db.doc("users/" + this.state.uid).collection("posts").add({
       uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
       uri: photo
@@ -132,7 +129,7 @@ export default class Gallery extends React.Component {
 
         <View style={styles.photoArea}>
           <Text>current photos in the cloud: </Text>
-          {this.state.photos.map(photo =>{ 
+          {this.state.photos.map(photo =>{
               return (
                 <View key={photo} >
                   <TouchableOpacity onPress={() => this.onSelectPhoto() }>
