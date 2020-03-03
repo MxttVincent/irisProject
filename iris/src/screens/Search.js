@@ -1,4 +1,4 @@
-// will show the users profile
+// will be able to search for users
 
 import React from 'react';
 import { Text, Button, View, StyleSheet, Image } from 'react-native';
@@ -7,17 +7,16 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const db = firebase.firestore();
 
-export default class Profile extends React.Component {
+export default class Search extends React.Component {
   static navigationOptions = {
-    title: 'User Profile',
+    title: 'Search',
     /* No more header config here! */
     
   };
   constructor(props) {
       super(props);
       this.state = {
-        uid: firebase.auth().currentUser.uid || null,
-        photos: [],
+        uid: firebase.auth().currentUser.uid || null
       }
     }
 
