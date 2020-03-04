@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, TextInput, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import firebase from '../config/firebase';
 
+const db = firebase.firestore();
+
 export default class SignUp extends React.Component {
   static navigationOptions = {
     title: 'Sign Up Screen',
@@ -31,6 +33,20 @@ export default class SignUp extends React.Component {
       }
     });
   }
+
+  /* onPublishPhoto = (photo) => {
+    db.doc("users/" + this.state.uid).collection("posts").add({
+      uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      uri: photo
+    })
+    .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        alert("Photo published!");
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+    });
+  } */
 
   onSignUp = (email, password, confirmPassword) => {
     if (password === confirmPassword) {
