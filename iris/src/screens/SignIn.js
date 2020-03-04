@@ -19,24 +19,36 @@ class SignIn extends React.Component {
     }
   }
 
-  // Called when the user wants to sign up.
-  // onSignUp = (email, password) => {
-  //   // attemots to create a user with their email and password in firebase.
-  //   firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-  //     // on success
-  //     console.log("user was created");
-  //   }).catch((error) => {
-  //     // destructuring error code and message from the error object.
-  //     const { code, message } = error;
-  //     // if error, alert the error message to the user
-  //     if (code) {
-  //       alert(message);
-  //     }
-  //   });
-  // }
-
-  // Called when the user wants to sign in with their email and password.
+  // Called when the user clicks the sign in button.
   onSignIn = (email, password) => {
+    // checks to see if the user entered a username not an email.
+    if (!email.includes("@")) {
+      const db = firebase.firestore();
+      const usersRef = db.collection("users");
+      // email in this case is the users input. so email could be just john123
+      const query = usersRef.where("username", "==", email)
+      
+        query.get().then(snapshot => {
+          snapshot.forEach(doc => {
+            // console.log(doc.id, " => ", doc.data().email);
+            // get the correct user's email
+            userEmail = doc.data().email;
+            // login with that users email, but it seems like they logged in with their username instead
+            this.handleLogin(userEmail, password);
+          })
+        }).catch(error => {
+          console.log("Error getting documents: ", error);
+        })
+        
+    } else {
+      // just login normally with email and pass
+      this.handleLogin(email, password);
+    }
+
+  }
+
+  // this method handles to login logic.
+  handleLogin = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
       // on success
       console.log("user signed in");

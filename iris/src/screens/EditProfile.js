@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Button, Image } from 'react-native';
 import Dialog from "react-native-dialog";
 import firebase from '../config/firebase';
+import * as ImagePicker from 'expo-image-picker';
 
 export default class EditProfile extends React.Component {
   static navigationOptions = {
@@ -26,6 +27,7 @@ export default class EditProfile extends React.Component {
     }
   }
 
+  // TODO also needs to update database with any changes
   onSaveChanges = () => {
     const user = firebase.auth().currentUser;
 
@@ -92,12 +94,24 @@ export default class EditProfile extends React.Component {
       //update email
       user.updateEmail(newEmail)
       .then(() => {
-        // Update successful.
-        alert(`Email has been successfully changed to ${newEmail}`);
-        // only hide dialog if email was changed. if error, then user should be able to retry.
-        this.toggleChangeEmailDialog();
-        // update view to display new email instantly when changed.
-        this.setState({email: user.email});
+        //update database
+        const db = firebase.firestore();
+        const usersRef = db.collection("users").doc(`${user.uid}`);
+        return usersRef.update({
+          email: newEmail
+        }).then(() => {
+          console.log("User email updated in database");
+          // Update successful.
+          alert(`Email has been successfully changed to ${newEmail}`);
+          // only hide dialog if email was changed. if error, then user should be able to retry.
+          this.toggleChangeEmailDialog();
+          // update view to display new email instantly when changed.
+          this.setState({email: user.email});
+        })
+        .catch(error => {
+          console.error(error);
+        })
+        
       })
       .catch((error) => {
         // An error happened.
@@ -132,10 +146,56 @@ export default class EditProfile extends React.Component {
     });
   }
 
+  onAvatarChange = async () => {
+    console.log("avatar icon was pressed");
+    let result = await ImagePicker.launchImageLibraryAsync({
+      //Only allow images to be selected
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      aspect: [4, 3],
+    });
+
+    if(!result.cancelled) {
+      const user = firebase.auth().currentUser;
+      this.setState({
+        photoUrl: result.uri
+      })
+
+      user.updateProfile({
+        photoURL: result.uri
+      })
+      .then(() => {
+        console.log("User avatar url updated");
+      })
+      .catch(error => {
+        console.error(error);
+      })
+
+      const db = firebase.firestore();
+      const usersRef = db.collection("users").doc(`${user.uid}`);
+      
+      return usersRef.update({
+        avatarURL: result.uri
+      })
+      .then(() => {
+        console.log("Database updated with photo url info")
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    }
+    
+  }
+
   render() {
     return (
       <View>
-        <Text>Edit profile screen</Text>
+      <TouchableOpacity onPress={() => this.onAvatarChange()}>
+        <Image 
+        style={{width: 50, height: 50, borderRadius:50, borderWidth: 1, borderColor: "gray"}}
+        source={{uri: this.state.photoUrl ? this.state.photoUrl : "https://images-na.ssl-images-amazon.com/images/I/8166xCVDGnL._SY355_.jpg"}}
+        />
+      </TouchableOpacity>
           <TextInput 
           style={styles.input}
           placeholder="Username"
@@ -149,12 +209,6 @@ export default class EditProfile extends React.Component {
           onChangeText={(email) => {
             this.setState({email});
           }} 
-          />
-          <TextInput 
-          style={styles.input}
-          placeholder="extra field"
-          value={this.state.username} 
-          onChangeText={(username) => console.log("")} 
           />
           <Button 
           title="Save Changes"

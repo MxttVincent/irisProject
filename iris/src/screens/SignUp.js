@@ -13,12 +13,40 @@ export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      confirmPassword: ''
+      username: null,
+      email: null,
+      password: null,
+      confirmPassword: null
     }
   }
 
+  createUserInDatabase = (username, email) => {
+    console.log("createUserInDatabase was called [SignUp.js]")
+    const db = firebase.firestore();
+    const userId = firebase.auth().currentUser.uid;
+
+    db.collection("users").doc(`${userId}`).set({
+      userId: userId,
+      username: username,
+      email: email,
+    })
+    .then(() => {
+      // set the users display name to their username 
+      firebase.auth().currentUser.updateProfile({
+        displayName: username
+      });
+      console.log(username);
+      // send user confirmation email 
+      this.handleVerificationEmail();
+      // navigate user to first page
+      this.props.navigation.navigate('Home');
+    })
+    .catch(error => {
+      console.error("Error adding document: ", error);
+    });
+  }
+
+  // Handles sending an verification email to the signed up user
   handleVerificationEmail = () => {
     console.log("verify was called")
     const user = firebase.auth().currentUser;
@@ -34,6 +62,7 @@ export default class SignUp extends React.Component {
     });
   }
 
+<<<<<<< HEAD
   /* onPublishPhoto = (photo) => {
     db.doc("users/" + this.state.uid).collection("posts").add({
       uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -49,12 +78,14 @@ export default class SignUp extends React.Component {
   } */
 
   onSignUp = (email, password, confirmPassword) => {
+=======
+  onSignUp = (username, email, password, confirmPassword) => {
+>>>>>>> feature/IR-29-create-a-database-user
     if (password === confirmPassword) {
       firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-        // send user confirmation email 
-        this.handleVerificationEmail();
-        // navigate user to first page
-        this.props.navigation.navigate('Home');
+        // create a user in the database
+        this.createUserInDatabase(username, email);
+        
       }).catch((error) => {
         // Handle Errors here.
         const { code, message } = error;
@@ -72,6 +103,12 @@ export default class SignUp extends React.Component {
   render() {
     return (
     <View style={styles.container}>
+      <TextInput
+      style={styles.input}
+      placeholder="username"
+      value={this.state.username} 
+      onChangeText={(username) => this.setState({username})} 
+      />
       <TextInput 
       style={styles.input}
       placeholder="email"
@@ -94,7 +131,7 @@ export default class SignUp extends React.Component {
       />
       <Button
         title="Sign up"
-        onPress={() => this.onSignUp(this.state.email, this.state.password, this.state.confirmPassword)}
+        onPress={() => this.onSignUp(this.state.username, this.state.email, this.state.password, this.state.confirmPassword)}
       />
   </View>
     )
