@@ -14,6 +14,7 @@ import Studio from './src/screens/Studio';
 import ImageSelector from './src/screens/ImageSelector';
 import Gallery from './src/screens/Gallery';
 import Feed from './src/screens/Feed';
+import Search from './src/screens/Search';
 
  class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -81,6 +82,9 @@ import Feed from './src/screens/Feed';
         <Button 
         title="Go to personal feed"
         onPress={() => this.props.navigation.navigate('Feed')}/>
+        <Button 
+        title="Search user"
+        onPress={() => this.props.navigation.navigate('Search')}/>
       </View>
     )
   }
@@ -97,7 +101,8 @@ const AppNavigator = createStackNavigator(
     Studio,
     ImageSelector,
     Gallery,
-    Feed
+    Feed,
+    Search
   },
   {
     defaultNavigationOptions: {
