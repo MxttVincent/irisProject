@@ -26,16 +26,20 @@ export default class Search extends React.Component {
     .then(querySnapshot => {
       querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
+          let rndr = this.renderAccount(doc.data());
           this.setState({
-           dbResult: <Text style={{marginLeft: 5}}>User found: {doc.data().username}</Text>
+           dbResult: rndr
           });
-          console.log(doc.id, " => ", doc.data());
       });
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
     });
+  }
 
+  renderAccount = (doc) => {
+    return(
+      <View>
+        <Button title={doc.username} style={{marginLeft: 5}} onPress={() => this.props.navigation.navigate('Profile', {username: doc.username, searchId: doc.id})}></Button>
+      </View>
+    )
   }
 
   componentDidMount = () => {

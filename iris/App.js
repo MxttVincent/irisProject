@@ -62,9 +62,9 @@ import Search from './src/screens/Search';
         onPress={() => {
           // must be logged in to go to profile screen
           if (firebase.auth().currentUser) {
-            this.props.navigation.navigate('Profile');
+            this.props.navigation.navigate('Profile', {username: firebase.auth().currentUser.providerData[0].displayName, searchId: firebase.auth().currentUser.uid});
           } else {
-            alert("user is not logged in.");
+            alert("User is not logged in.");
           }
           }
         }

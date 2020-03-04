@@ -17,13 +17,14 @@ export default class Profile extends React.Component {
       super(props);
       this.state = {
         uid: firebase.auth().currentUser.uid || null,
+        username: this.props.navigation.state.params.username,
+        searchId: this.props.navigation.state.params.searchId,
         photos: [],
       }
     }
 
   componentDidMount = () => {
-    this.fetchPhotos(this.state.uid);
-    console.log(firebase.auth().currentUser.providerData[0].displayName);
+    this.fetchPhotos(this.state.searchId);
   }
 
   fetchPhotos = (uid) => {
@@ -42,7 +43,7 @@ export default class Profile extends React.Component {
     return (
       <View>
         <View style={styles.photoArea}>
-          <Text>{firebase.auth().currentUser.providerData[0].displayName}'s photos: </Text>
+          <Text>{this.state.username}'s photos: </Text>
           <View style={styles.photoRow}>
             {this.state.photos.map(photo =>{
                 return (
