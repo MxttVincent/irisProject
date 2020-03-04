@@ -65,8 +65,8 @@ export default class Gallery extends React.Component {
     const task = imagesRef.put(blob);
     // Upload the blob/image to the referred location
     task.then((snapshot) => {
-      console.log(snapshot.state);
       console.log("image uploaded successfully");
+      this.fetchPhotos(this.state.uid);
       this.setState({
         image: null,
         height: null,

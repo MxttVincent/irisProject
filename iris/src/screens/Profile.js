@@ -24,11 +24,12 @@ export default class Profile extends React.Component {
     }
 
   componentDidMount = () => {
+    console.log(this.state.searchId);
     this.fetchPhotos(this.state.searchId);
   }
 
   fetchPhotos = (uid) => {
-    const listRef = db.doc("users/" + uid).collection("posts")
+    db.doc("users/" + uid).collection("posts")
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach((doc) => {

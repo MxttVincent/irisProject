@@ -62,25 +62,7 @@ export default class SignUp extends React.Component {
     });
   }
 
-<<<<<<< HEAD
-  /* onPublishPhoto = (photo) => {
-    db.doc("users/" + this.state.uid).collection("posts").add({
-      uploadedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uri: photo
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        alert("Photo published!");
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });
-  } */
-
-  onSignUp = (email, password, confirmPassword) => {
-=======
   onSignUp = (username, email, password, confirmPassword) => {
->>>>>>> feature/IR-29-create-a-database-user
     if (password === confirmPassword) {
       firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
         // create a user in the database

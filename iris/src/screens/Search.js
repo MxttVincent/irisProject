@@ -35,9 +35,10 @@ export default class Search extends React.Component {
   }
 
   renderAccount = (doc) => {
+    console.log(doc);
     return(
       <View>
-        <Button title={doc.username} style={{marginLeft: 5}} onPress={() => this.props.navigation.navigate('Profile', {username: doc.username, searchId: doc.id})}></Button>
+        <Button title={doc.username} style={{marginLeft: 5}} onPress={() => this.props.navigation.navigate('Profile', {username: doc.username, searchId: doc.userId})}></Button>
       </View>
     )
   }
