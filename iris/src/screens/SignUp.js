@@ -4,6 +4,10 @@ import firebase from '../config/firebase';
 
 const db = firebase.firestore();
 
+//TODO
+//
+//Need to add a default avatar to the database for each user, then retrieve in search and profile screens
+
 export default class SignUp extends React.Component {
   static navigationOptions = {
     title: 'Sign Up Screen',

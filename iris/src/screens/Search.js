@@ -1,7 +1,7 @@
 // will be able to search for users
 
 import React from 'react';
-import { TextInput, Text, Button, View, StyleSheet, Image } from 'react-native';
+import { TextInput, Button, View, StyleSheet, Image } from 'react-native';
 import firebase from '../config/firebase';
 
 const db = firebase.firestore();
