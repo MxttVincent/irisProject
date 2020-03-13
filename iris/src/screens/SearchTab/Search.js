@@ -54,6 +54,9 @@ export default class Search extends React.Component {
       <View>
         <TextInput style={{marginLeft: 5}} placeholder="Search for a user..." onChangeText={value => this.dbQuery(value)}></TextInput>
         {this.state.dbResult}
+        <Button 
+          title="Go to User Gallery"
+          onPress={() => this.props.navigation.navigate('Gallery')}/>
       </View>
     )
   }

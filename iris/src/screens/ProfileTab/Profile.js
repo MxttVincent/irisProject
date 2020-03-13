@@ -21,6 +21,7 @@ export default class Profile extends React.Component {
         uid: firebase.auth().currentUser.uid || null,
         username: firebase.auth().currentUser.providerData[0].displayName,
         photos: [],
+        followingCount: null
       }
     }
 
@@ -40,7 +41,11 @@ export default class Profile extends React.Component {
           let dataUri = doc.data().uri;
           this.setState({photos: [...this.state.photos, dataUri]});
       })
-  })
+    });
+    db.doc("users/" + uid).get()
+    .then(doc => {
+      this.setState({followingCount: doc.data().following})
+    });
   }
 
 
@@ -55,7 +60,7 @@ export default class Profile extends React.Component {
             {this.state.photos.map(photo =>{
                 return (
                   <View key={photo} style={styles.photo1}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => alert("photo clicked - enlarge")}>
                       <Image 
                       key={photo} 
                       source={{uri: photo}} 
@@ -68,6 +73,12 @@ export default class Profile extends React.Component {
 
             </View>
         </View>
+
+        <Button
+          title= {"Following: " + this.state.followingCount}
+          onPress={() => this.props.navigation.navigate('Followers')}
+        />
+
         <Button
           title="Edit profile"
           onPress={() => this.props.navigation.navigate('EditProfile')}

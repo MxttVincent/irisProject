@@ -15,7 +15,7 @@ import EditProfile from './screens/ProfileTab/EditProfile';
 import Camera from './screens/StudioTab/Camera';
 import Studio from './screens/StudioTab/Studio';
 import Editor from './screens/StudioTab/EditorScreen/Editor';
-
+import Followers from './screens/ProfileTab/Followers';
 import Loading from './screens/Loading';
 
 import { createSwitchNavigator } from 'react-navigation';
@@ -52,6 +52,8 @@ export const StudioStack = createStackNavigator({
 export const ProfileStack = createStackNavigator({
     Profile,
     EditProfile,
+    Followers,
+    UserProfile
   }, {
   initialRoute: 'Profile',
 })

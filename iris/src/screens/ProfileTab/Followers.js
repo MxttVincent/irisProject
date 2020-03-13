@@ -7,39 +7,41 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const db = firebase.firestore();
 
-export default class Profile extends React.Component {
+export default class Followers extends React.Component {
   static navigationOptions = {
-    title: 'User Profile',
+    title: 'Following',
     /* No more header config here! */
     
   };
-
+ 
   //Uses state navigation params which will decide if it is the current user or a searched user
   constructor(props) {
       super(props);
       this.state = {
         uid: firebase.auth().currentUser.uid || null,
-        username: this.props.navigation.state.params.username,
-        searchId: this.props.navigation.state.params.searchId,
-        photos: [],
+        username: firebase.auth().currentUser.providerData[0].displayName,
+        following: []
       }
     }
 
 
   //Fetches all posts for the given username
   componentDidMount = () => {
-    this.fetchPhotos(this.state.searchId);
+    this.fetchFollowing(this.state.uid);
   }
 
   //Retrieves each post individually from the given user and adds them to the state array 'photos'
-  fetchPhotos = (uid) => {
-    db.doc("users/" + uid).collection("posts")
-    .get()
+  fetchFollowing = (uid) => {
+    db.doc("users/" + uid).collection("following")
+    .get()  //Retrieves each follower 
     .then(querySnapshot => {
       querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          let dataUri = doc.data().uri;
-          this.setState({photos: [...this.state.photos, dataUri]});
+          //Finds the database reference and retrieves the actual document
+          let reference = doc.data().user;
+          reference.get()
+          .then(doc => {
+            this.setState({following: [...this.state.following, doc.data()]})
+          });
       })
   })
   }
@@ -48,30 +50,19 @@ export default class Profile extends React.Component {
   //Uses the map function to repeat the process of displaying an image on the profile
   render() {
     return (
-      <View>
-        <View style={styles.photoArea}>
-          <Text>{this.state.username}'s photos: </Text>
-          <View style={styles.photoRow}>
-
-            {this.state.photos.map(photo =>{
-                return (
-                  <View key={photo} style={styles.photo1}>
-                    <TouchableOpacity>
-                      <Image 
-                      key={photo} 
-                      source={{uri: photo}} 
-                      style={{width: 100, height: 100, marginVertical: 5}} 
-                      />
-                    </TouchableOpacity>
-                  </View>
-                )
-            })}
-
+     <View>
+        {this.state.following.map(follower =>{
+          return (
+            <View key={follower.userId}>
+              <Button title={follower.username} style={{marginLeft: 5}} 
+                onPress={() => this.props.navigation.navigate('UserProfile', {username: follower.username, searchId: follower.userId})}>
+              </Button>
             </View>
-        </View>
-      </View>
-    )
-  }
+          )
+        })}
+     </View>
+    );
+}
 }
 
 const styles = StyleSheet.create({
