@@ -22,7 +22,8 @@ export default class Profile extends React.Component {
         username: this.props.navigation.state.params.username,
         searchId: this.props.navigation.state.params.searchId,
         photos: [],
-        button: null
+        button: null,
+        followersCount: 0
       }
     }
 
@@ -72,6 +73,11 @@ export default class Profile extends React.Component {
         })    
       }
     })
+    //Gets the current follower and following count
+    db.doc("users/" + this.state.searchId).get()
+    .then(doc => {
+      this.setState({followingCount: doc.data().following, followersCount: doc.data().followers >= 0 ? doc.data().followers : 0})
+    });
   }
 
   //Retrieves each post individually from the given user and adds them to the state array 'photos'
@@ -135,7 +141,7 @@ export default class Profile extends React.Component {
             {this.state.photos.map(photo =>{
                 return (
                   <View key={photo} style={styles.photo1}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Post", {uri: photo, username: this.state.username})}>
                       <Image 
                       key={photo} 
                       source={{uri: photo}} 
@@ -148,6 +154,11 @@ export default class Profile extends React.Component {
             </View>
 
             {this.state.button}
+
+            <Button
+              title= {"Followers: " + this.state.followersCount}
+              onPress={() => this.props.navigation.navigate('Followers', {uid: this.state.searchId, username: this.state.username})}
+            />
             
         </View>
       </View>

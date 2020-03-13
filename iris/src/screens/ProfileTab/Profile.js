@@ -62,7 +62,7 @@ export default class Profile extends React.Component {
             {this.state.photos.map(photo =>{
                 return (
                   <View key={photo} style={styles.photo1}>
-                    <TouchableOpacity onPress={() => alert("photo clicked - enlarge")}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Post", {uri: photo, username: this.state.username})}>
                       <Image 
                       key={photo} 
                       source={{uri: photo}} 
@@ -78,12 +78,12 @@ export default class Profile extends React.Component {
 
         <Button
           title= {"Following: " + this.state.followingCount}
-          onPress={() => this.props.navigation.navigate('Following')}
+          onPress={() => this.props.navigation.navigate('Following', {uid: this.state.uid, username: this.state.username})}
         />
 
         <Button
           title= {"Followers: " + this.state.followersCount}
-          onPress={() => this.props.navigation.navigate('Followers')}
+          onPress={() => this.props.navigation.navigate('Followers', {uid: this.state.uid, username: this.state.username})}
         />
 
         <Button

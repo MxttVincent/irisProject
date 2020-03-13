@@ -18,8 +18,9 @@ export default class Followers extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        uid: firebase.auth().currentUser.uid || null,
-        username: firebase.auth().currentUser.providerData[0].displayName,
+        currentLogin: firebase.auth().currentUser || null,
+        username: this.props.navigation.state.params.username,
+        uid: this.props.navigation.state.params.uid,
         followers: []
       }
     }
@@ -31,6 +32,7 @@ export default class Followers extends React.Component {
   }
 
   //Finds all users in the collection 'following'
+  //TODO fix uid so that it uses the UserProfile value, not current logged in value
   fetchFollowers = (uid) => {
     db.doc("users/" + uid).collection("followers").get()  //Retrieves id of each follower
     .then(querySnapshot => {

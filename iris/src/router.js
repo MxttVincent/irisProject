@@ -22,6 +22,8 @@ import Following from './screens/ProfileTab/Following';
 import Followers from './screens/ProfileTab/Followers';
 import Loading from './screens/Loading';
 
+import Post from './screens/ProfileTab/Post';
+
 import { createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -38,7 +40,10 @@ export const HomeStack = createStackNavigator({
 
 export const SearchStack = createStackNavigator({
     Search,
-    UserProfile
+    UserProfile,
+    Post,
+    Followers,
+    Following
   }, {
   initialRouteName: 'Search',
 })
@@ -58,7 +63,8 @@ export const ProfileStack = createStackNavigator({
     EditProfile,
     Following,
     Followers,
-    UserProfile
+    UserProfile,
+    Post
   }, {
   initialRoute: 'Profile',
 })

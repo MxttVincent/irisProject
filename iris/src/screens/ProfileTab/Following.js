@@ -18,8 +18,9 @@ export default class Following extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        uid: firebase.auth().currentUser.uid || null,
-        username: firebase.auth().currentUser.providerData[0].displayName,
+        currentLogin: firebase.auth().currentUser || null,
+        username: this.props.navigation.state.params.username,
+        uid: this.props.navigation.state.params.uid,
         following: []
       }
     }
