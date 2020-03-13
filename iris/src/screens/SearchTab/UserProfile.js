@@ -17,22 +17,10 @@ export default class Profile extends React.Component {
   //Uses state navigation params which will decide if it is the current user or a searched user
   constructor(props) {
       super(props);
-      console.log("Params: " + this.props.navigation.state.params);
-      let username_, searchId_;
-      if (this.props.navigation.state.params == undefined){
-        username_ = firebase.auth().currentUser.providerData[0].displayName;
-        searchId_ = firebase.auth().currentUser.uid;
-        console.log("should be own profile");
-      }
-      else {
-        username_ = this.props.navigation.state.params.username,
-        searchId_ = this.props.navigation.state.params.searchId;
-        console.log("should be different profile");
-      }
       this.state = {
         uid: firebase.auth().currentUser.uid || null,
-        username: username_,
-        searchId: searchId_,
+        username: this.props.navigation.state.params.username,
+        searchId: this.props.navigation.state.params.searchId,
         photos: [],
       }
     }

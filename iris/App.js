@@ -7,8 +7,9 @@ import firebase from './src/config/firebase';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    console.log("Current user: " + firebase.auth().currentUser);
     this.state = {
-      signedIn: false,
+      signedIn: firebase.auth().currentUser == null ? false : true,
     }
   }
 
@@ -34,8 +35,9 @@ export default class App extends React.Component {
 
   render() {
     // const A = createAppContainer(createRootNavigator(false));
+
   const A = createAppContainer(createRootNavigator(this.state.signedIn));
-    console.log(this.state.signedIn);
+    console.log("Signed in? " + this.state.signedIn);
     return (
       <A />
     )

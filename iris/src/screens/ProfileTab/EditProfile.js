@@ -223,6 +223,11 @@ export default class EditProfile extends React.Component {
           onPress={() => this.toggleChangeEmailDialog()}>
             <Text style={styles.textLink}>Change Email</Text>
           </TouchableOpacity>
+          
+          <TouchableOpacity
+          onPress={() => firebase.auth().signOut()}>
+            <Text style={styles.textLink}>Sign out</Text>
+          </TouchableOpacity>
 
           <Dialog.Container visible={this.state.showPasswordDialog}>
             <Dialog.Title>Change Password</Dialog.Title>

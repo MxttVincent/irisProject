@@ -16,9 +16,13 @@ import Camera from './screens/StudioTab/Camera';
 import Studio from './screens/StudioTab/Studio';
 import Editor from './screens/StudioTab/EditorScreen/Editor';
 
+import Loading from './screens/Loading';
+
 import { createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+
+let initialLoad = true;
 
 export const HomeStack = createStackNavigator({
     Feed,
@@ -82,7 +86,6 @@ export const SignedIn = createBottomTabNavigator({
       title: "Profile",
       tabBarIcon: <Icon name="user" size={18} color="#242424" />,
     },
-    //initialParams: { username: firebase.auth().currentUser.providerData[0].displayName, searchId: firebase.auth().currentUser.uid},
   }
 })
 
@@ -96,7 +99,20 @@ export const SignedOut = createStackNavigator({
   SignIn
 })
 
-export const createRootNavigator = (x = false) => {
+export const createRootNavigator = (x) => {
+  //The Loading screen acts as a buffer for relogin so that the connection with firebase can be established, it will always 
+  //return signed out otherwise. This solves the flash of the signedOut screen when the login state persists
+  if (x == false && !initialLoad){
+    screen_ = 'SignedOut';
+  }
+  else if (x == false){
+    screen_ = 'Loading';
+  }
+  else {
+    screen_ = 'SignedIn';
+  }
+  initialLoad = false;
+
   return createSwitchNavigator(
     {
       SignedOut: {
@@ -105,10 +121,12 @@ export const createRootNavigator = (x = false) => {
       SignedIn: {
         screen: SignedIn
       },
-      
+      Loading: {
+        screen: Loading
+      }
     },
     {
-      initialRouteName: x ? "SignedIn" : "SignedOut"
+      initialRouteName: (screen_)
     }
   );
 };
