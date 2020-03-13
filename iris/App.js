@@ -1,27 +1,16 @@
 import React from 'react';
-import { View, Button, Text } from 'react-native';
 import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createRootNavigator } from "./src/router"; // import stack & tab navigation
+import './src/screens/StudioTab/fixtimerbug';
 import firebase from './src/config/firebase';
-import './src/fixtimerbug';
-// import screens
-import SignIn from './src/screens/SignIn';
-import SignUp from './src/screens/SignUp';
-import Profile from './src/screens/Profile';
-import EditProfile from './src/screens/EditProfile';
-import Camera from './src/screens/Camera';
-import Studio from './src/screens/Studio';
-import ImageSelector from './src/screens/ImageSelector';
-import Gallery from './src/screens/Gallery';
-import Feed from './src/screens/Feed';
-import Search from './src/screens/Search';
 
- class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Home Screen',
-    /* No more header config here! */
-    
-  };
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      signedIn: false,
+    }
+  }
 
   componentDidMount() {
     // For each of your app's pages that need information about the signed-in user, 
@@ -30,92 +19,29 @@ import Search from './src/screens/Search';
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
-        var displayName = user.displayName;
-        var email = user.email;
-        var emailVerified = user.emailVerified;
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
+        this.setState({signedIn: true});
         console.log("user is logged in");
+        
         // if user is logged in, navigate them to the appropriate page
       } else {
         // User is signed out.
         // ...
+        this.setState({signedIn: false});
         console.log("user is not logged in");
       }
     });
   }
 
   render() {
+    // const A = createAppContainer(createRootNavigator(false));
+  const A = createAppContainer(createRootNavigator(this.state.signedIn));
+
+    console.log(this.state.signedIn);
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Updated version 0.2.0</Text>
-        <Button
-        title="Go to sign in"
-        onPress={() => this.props.navigation.navigate('SignIn')}/>
-        <Button
-        title="Go to sign up with email"
-        onPress={() => this.props.navigation.navigate('SignUp')}/>
-        <Button
-        title="Go to profile screen"
-        onPress={() => {
-          // must be logged in to go to profile screen
-          if (firebase.auth().currentUser) {
-            this.props.navigation.navigate('Profile', {username: firebase.auth().currentUser.providerData[0].displayName, searchId: firebase.auth().currentUser.uid});
-          } else {
-            alert("User is not logged in.");
-          }
-          }
-        }
-        />
-        <Button
-        title="Sign out"
-        onPress={() => firebase.auth().signOut()} 
-        />
-        <Button
-        title="Go to Studio"
-        onPress={() => this.props.navigation.navigate('Studio')}/>
-        <Button 
-        title="Go to User Gallery"
-        onPress={() => this.props.navigation.navigate('Gallery')}/>
-        <Button 
-        title="Go to personal feed"
-        onPress={() => this.props.navigation.navigate('Feed')}/>
-        <Button 
-        title="Search user"
-        onPress={() => this.props.navigation.navigate('Search')}/>
-      </View>
+      <A />
     )
   }
+
 }
 
-const AppNavigator = createStackNavigator(
-  {
-    Home: HomeScreen,
-    SignIn,
-    SignUp,
-    Profile,
-    EditProfile,
-    Camera,
-    Studio,
-    ImageSelector,
-    Gallery,
-    Feed,
-    Search
-  },
-  {
-    defaultNavigationOptions: {
-      headerTintColor: '#121212',
-      headerStyle: {
-        backgroundColor: '#fff',
-      },
-    },
-  },
-  {
-    initialRouteName: 'Home',
-  }
-);
-
-export default createAppContainer(AppNavigator);
 

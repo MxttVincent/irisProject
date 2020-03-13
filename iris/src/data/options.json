@@ -1,0 +1,38 @@
+[
+  {
+    "type": "adjustment",
+    "text": "contrast",
+    "iconName": "adjust"
+  },
+  {
+    "type": "adjustment",
+    "text": "saturation",
+    "iconName": "sun-o"
+  },
+  {
+    "type": "adjustment",
+    "text": "Crop",
+    "iconName": "crop"
+  },
+  {
+    "type": "adjustment",
+    "text": "Exposure",
+    "iconName": "lightbulb-o"
+  },
+  {
+    "type": "adjustment",
+    "text": "Highlights"
+  },
+  {
+    "type": "adjustment",
+    "text": "Shadows"
+  },
+  {
+    "type": "adjustment",
+    "text": "Whites"
+  },
+  {
+    "type": "adjustment",
+    "text": "Blacks"
+  }
+]
