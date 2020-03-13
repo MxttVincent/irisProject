@@ -20,6 +20,8 @@ export default class Search extends React.Component {
       }
     }
 
+
+  //Retrieves the collection of posts given a username and stores it in the state variable
   dbQuery = (value) => {
     db.collection("users").where("username", "==", value)
     .get()
@@ -34,17 +36,17 @@ export default class Search extends React.Component {
     });
   }
 
+  //Sets the state parameters for the profile page, which will either be the user logged in or a 
+  //profile that has been searched for
   renderAccount = (doc) => {
     console.log(doc);
     return(
       <View>
-        <Button title={doc.username} style={{marginLeft: 5}} onPress={() => this.props.navigation.navigate('Profile', {username: doc.username, searchId: doc.userId})}></Button>
+        <Button title={doc.username} style={{marginLeft: 5}} 
+          onPress={() => this.props.navigation.navigate('Profile', {username: doc.username, searchId: doc.userId})}>
+        </Button>
       </View>
     )
-  }
-
-  componentDidMount = () => {
-    console.log(firebase.auth().currentUser.providerData[0].displayName);
   }
 
   render() {

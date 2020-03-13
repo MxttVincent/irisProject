@@ -13,6 +13,8 @@ export default class Profile extends React.Component {
     /* No more header config here! */
     
   };
+
+  //Uses state navigation params which will decide if it is the current user or a searched user
   constructor(props) {
       super(props);
       this.state = {
@@ -23,11 +25,13 @@ export default class Profile extends React.Component {
       }
     }
 
+
+  //Fetches all posts for the given username
   componentDidMount = () => {
-    console.log(this.state.searchId);
     this.fetchPhotos(this.state.searchId);
   }
 
+  //Retrieves each post individually from the given user and adds them to the state array 'photos'
   fetchPhotos = (uid) => {
     db.doc("users/" + uid).collection("posts")
     .get()
@@ -40,12 +44,15 @@ export default class Profile extends React.Component {
   })
   }
 
+
+  //Uses the map function to repeat the process of displaying an image on the profile
   render() {
     return (
       <View>
         <View style={styles.photoArea}>
           <Text>{this.state.username}'s photos: </Text>
           <View style={styles.photoRow}>
+
             {this.state.photos.map(photo =>{
                 return (
                   <View key={photo} style={styles.photo1}>
@@ -59,6 +66,7 @@ export default class Profile extends React.Component {
                   </View>
                 )
             })}
+
             </View>
         </View>
         <Button
