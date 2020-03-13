@@ -21,7 +21,8 @@ export default class Profile extends React.Component {
         uid: firebase.auth().currentUser.uid || null,
         username: firebase.auth().currentUser.providerData[0].displayName,
         photos: [],
-        followingCount: 0
+        followingCount: 0,
+        followersCount: 0
       }
     }
 
@@ -42,9 +43,10 @@ export default class Profile extends React.Component {
           this.setState({photos: [...this.state.photos, dataUri]});
       })
     });
+    //Gets the current follower and following count
     db.doc("users/" + uid).get()
     .then(doc => {
-      this.setState({followingCount: doc.data().following})
+      this.setState({followingCount: doc.data().following, followersCount: doc.data().followers})
     });
   }
 
@@ -76,6 +78,11 @@ export default class Profile extends React.Component {
 
         <Button
           title= {"Following: " + this.state.followingCount}
+          onPress={() => this.props.navigation.navigate('Following')}
+        />
+
+        <Button
+          title= {"Followers: " + this.state.followersCount}
           onPress={() => this.props.navigation.navigate('Followers')}
         />
 

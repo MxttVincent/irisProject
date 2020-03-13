@@ -91,17 +91,33 @@ export default class Profile extends React.Component {
     //Sets the reference for the user and then adds them to the following list
     let userRef = db.doc("users/" + this.state.uid);
     //Calling the location that does not exist will create a new document, but the doc must be set to create the collection
-    let docRef = userRef.collection("following").doc(this.state.searchId);
+    let followingRef = userRef.collection("following").doc(this.state.searchId);
+    let followersRef = db.doc("users/" + this.state.searchId);
 
-    docRef.get()
+    followingRef.get()
     .then((docSnapshot) => {
+      //Unfollow user
       if (docSnapshot.exists) {
-        docRef.delete();
+        //Delete from current user's following list
+        followingRef.delete();
         userRef.update({following: firebase.firestore.FieldValue.increment(-1)});
+
+        //Delete from other user's follower list
+        followersRef.collection("followers").doc(this.state.uid).delete();
+        followersRef.update({followers: firebase.firestore.FieldValue.increment(-1)});
+
         this.isFollowing();
-      } else {
-        docRef.set({})
+      } 
+      //Follow user
+      else {
+        //Add to current user's following list
+        followingRef.set({})
         userRef.update({following: firebase.firestore.FieldValue.increment(1)});
+
+        //Add to other user's follower list
+        followersRef.collection("followers").doc(this.state.uid).set({});
+        followersRef.update({followers: firebase.firestore.FieldValue.increment(1)});
+
         this.isFollowing();
       }
     });

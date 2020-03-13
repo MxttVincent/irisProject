@@ -33,6 +33,8 @@ export default class SignUp extends React.Component {
       userId: userId,
       username: username,
       email: email,
+      followers: 0,
+      following: 0
     })
     .then(() => {
       // set the users display name to their username 

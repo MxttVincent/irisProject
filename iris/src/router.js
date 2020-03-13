@@ -8,13 +8,17 @@ import Home from './screens/PreAuth/Home';
 // import screens when authorised.
 import Feed from './screens/FeedTab/Feed';
 import Gallery from './screens/Gallery';
+
 import Search from './screens/SearchTab/Search';
 import UserProfile from './screens/SearchTab/UserProfile';
 import Profile from './screens/ProfileTab/Profile';
 import EditProfile from './screens/ProfileTab/EditProfile';
+
 import Camera from './screens/StudioTab/Camera';
 import Studio from './screens/StudioTab/Studio';
+
 import Editor from './screens/StudioTab/EditorScreen/Editor';
+import Following from './screens/ProfileTab/Following';
 import Followers from './screens/ProfileTab/Followers';
 import Loading from './screens/Loading';
 
@@ -52,6 +56,7 @@ export const StudioStack = createStackNavigator({
 export const ProfileStack = createStackNavigator({
     Profile,
     EditProfile,
+    Following,
     Followers,
     UserProfile
   }, {

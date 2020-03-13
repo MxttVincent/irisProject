@@ -16,7 +16,7 @@ export default class Feed extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Updated version 0.3.2</Text>
+        <Text>Updated version 0.3.5</Text>
         {/* {this.state.photos.map(photo =>{
                 return (
                   <View key={photo} style={styles.photo1}>

@@ -7,9 +7,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const db = firebase.firestore();
 
-export default class Followers extends React.Component {
+export default class Following extends React.Component {
   static navigationOptions = {
-    title: 'Followers',
+    title: 'Following',
     /* No more header config here! */
     
   };
@@ -20,25 +20,25 @@ export default class Followers extends React.Component {
       this.state = {
         uid: firebase.auth().currentUser.uid || null,
         username: firebase.auth().currentUser.providerData[0].displayName,
-        followers: []
+        following: []
       }
     }
 
 
   //Fetches all posts for the given username
   componentDidMount = () => {
-    this.fetchFollowers(this.state.uid);
+    this.fetchFollowing(this.state.uid);
   }
 
   //Finds all users in the collection 'following'
-  fetchFollowers = (uid) => {
-    db.doc("users/" + uid).collection("followers").get()  //Retrieves id of each follower
+  fetchFollowing = (uid) => {
+    db.doc("users/" + uid).collection("following").get()  //Retrieves id of each follower
     .then(querySnapshot => {
       querySnapshot.forEach((doc) => {
         //Find the actual follower object using the given id
         db.doc("users/" + doc.id).get()
         .then(doc => {
-          this.setState({followers: [...this.state.followers, doc.data()]})
+          this.setState({following: [...this.state.following, doc.data()]})
         })
       })
     })
@@ -49,7 +49,7 @@ export default class Followers extends React.Component {
   render() {
     return (
      <View>
-        {this.state.followers.map(follower => {
+        {this.state.following.map(follower =>{
           return (
             <View key={follower.userId}>
               <Button title={follower.username} style={{marginLeft: 5}} 
