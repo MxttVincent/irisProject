@@ -21,7 +21,7 @@ export default class Profile extends React.Component {
         uid: firebase.auth().currentUser.uid || null,
         username: firebase.auth().currentUser.providerData[0].displayName,
         photos: [],
-        followingCount: null
+        followingCount: 0
       }
     }
 

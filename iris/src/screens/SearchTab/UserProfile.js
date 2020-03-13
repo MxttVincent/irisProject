@@ -22,13 +22,56 @@ export default class Profile extends React.Component {
         username: this.props.navigation.state.params.username,
         searchId: this.props.navigation.state.params.searchId,
         photos: [],
+        button: null
       }
     }
 
-
   //Fetches all posts for the given username
   componentDidMount = () => {
+    this.isFollowing();
     this.fetchPhotos(this.state.searchId);
+  }
+
+  renderButton = (current) => {
+    if (current == "following"){
+      return (
+        <View>
+          <Button color="green"
+            title="Following"
+            onPress={() => this.followUser()}
+          />
+        </View>
+      )
+    }
+    else {
+      return (
+        <View>
+          <Button color="blue"
+            title="Follow"
+            onPress={() => this.followUser()}
+          />
+        </View>
+      )
+    }
+    
+  }
+
+  //Checks if the current user is currently following a given user, then returns the correct button
+  isFollowing = () => {
+    let docRef = db.doc("users/" + this.state.uid).collection("following").doc(this.state.searchId);
+    docRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) {
+        this.setState({
+          button: this.renderButton("following")
+        })
+      }
+      else {
+        this.setState({
+          button: this.renderButton()
+        })    
+      }
+    })
   }
 
   //Retrieves each post individually from the given user and adds them to the state array 'photos'
@@ -41,9 +84,29 @@ export default class Profile extends React.Component {
           let dataUri = doc.data().uri;
           this.setState({photos: [...this.state.photos, dataUri]});
       })
-  })
+    })
   }
 
+  followUser = () => {
+    //Sets the reference for the user and then adds them to the following list
+    let userRef = db.doc("users/" + this.state.uid);
+    //Calling the location that does not exist will create a new document, but the doc must be set to create the collection
+    let docRef = userRef.collection("following").doc(this.state.searchId);
+
+    docRef.get()
+    .then((docSnapshot) => {
+      if (docSnapshot.exists) {
+        docRef.delete();
+        userRef.update({following: firebase.firestore.FieldValue.increment(-1)});
+        this.isFollowing();
+      } else {
+        docRef.set({})
+        userRef.update({following: firebase.firestore.FieldValue.increment(1)});
+        this.isFollowing();
+      }
+    });
+    
+  }
 
   //Uses the map function to repeat the process of displaying an image on the profile
   render() {
@@ -66,8 +129,10 @@ export default class Profile extends React.Component {
                   </View>
                 )
             })}
-
             </View>
+
+            {this.state.button}
+            
         </View>
       </View>
     )
@@ -76,7 +141,7 @@ export default class Profile extends React.Component {
 
 const styles = StyleSheet.create({
   photoArea: {
-    marginVertical: 10
+    margin: 10
   },
 
   photo1: {

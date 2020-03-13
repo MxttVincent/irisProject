@@ -51,7 +51,7 @@ export default class Search extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.area}>
         <TextInput style={{marginLeft: 5}} placeholder="Search for a user..." onChangeText={value => this.dbQuery(value)}></TextInput>
         {this.state.dbResult}
         <Button 
@@ -63,4 +63,7 @@ export default class Search extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  area: {
+    margin: 10
+  }
 })

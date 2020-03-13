@@ -30,20 +30,18 @@ export default class Followers extends React.Component {
     this.fetchFollowing(this.state.uid);
   }
 
-  //Retrieves each post individually from the given user and adds them to the state array 'photos'
+  //Finds all users in the collection 'following'
   fetchFollowing = (uid) => {
-    db.doc("users/" + uid).collection("following")
-    .get()  //Retrieves each follower 
+    db.doc("users/" + uid).collection("following").get()  //Retrieves id of each follower
     .then(querySnapshot => {
       querySnapshot.forEach((doc) => {
-          //Finds the database reference and retrieves the actual document
-          let reference = doc.data().user;
-          reference.get()
-          .then(doc => {
-            this.setState({following: [...this.state.following, doc.data()]})
-          });
+        //Find the actual follower object using the given id
+        db.doc("users/" + doc.id).get()
+        .then(doc => {
+          this.setState({following: [...this.state.following, doc.data()]})
+        })
       })
-  })
+    })
   }
 
 
