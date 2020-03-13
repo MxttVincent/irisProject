@@ -13,13 +13,26 @@ export default class Profile extends React.Component {
     /* No more header config here! */
     
   };
- 
+
   //Uses state navigation params which will decide if it is the current user or a searched user
   constructor(props) {
       super(props);
+      console.log("Params: " + this.props.navigation.state.params);
+      let username_, searchId_;
+      if (this.props.navigation.state.params == undefined){
+        username_ = firebase.auth().currentUser.providerData[0].displayName;
+        searchId_ = firebase.auth().currentUser.uid;
+        console.log("should be own profile");
+      }
+      else {
+        username_ = this.props.navigation.state.params.username,
+        searchId_ = this.props.navigation.state.params.searchId;
+        console.log("should be different profile");
+      }
       this.state = {
         uid: firebase.auth().currentUser.uid || null,
-        username: firebase.auth().currentUser.providerData[0].displayName,
+        username: username_,
+        searchId: searchId_,
         photos: [],
       }
     }
@@ -27,7 +40,7 @@ export default class Profile extends React.Component {
 
   //Fetches all posts for the given username
   componentDidMount = () => {
-    this.fetchPhotos(this.state.uid);
+    this.fetchPhotos(this.state.searchId);
   }
 
   //Retrieves each post individually from the given user and adds them to the state array 'photos'

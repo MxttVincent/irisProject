@@ -1,11 +1,15 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import firebase from './config/firebase';
 // import non-auth screens
-import SignIn from './screens/preauth/SignIn';
-import SignUp from './screens/preauth/SignUp';
-import Home from './screens/preauth/Home';
+import SignIn from './screens/PreAuth/SignIn';
+import SignUp from './screens/PreAuth/SignUp';
+import Home from './screens/PreAuth/Home';
 // import screens when authorised.
 import Feed from './screens/FeedTab/Feed';
+import Gallery from './screens/Gallery';
+import Search from './screens/SearchTab/Search';
+import UserProfile from './screens/SearchTab/UserProfile';
 import Profile from './screens/ProfileTab/Profile';
 import EditProfile from './screens/ProfileTab/EditProfile';
 import Camera from './screens/StudioTab/Camera';
@@ -17,17 +21,26 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 export const HomeStack = createStackNavigator({
-    Feed, 
+    Feed,
+    Gallery, 
+    Search
   }, {
   initialRouteName: 'Feed',
 })
 
+export const SearchStack = createStackNavigator({
+    Search,
+    UserProfile
+  }, {
+  initialRouteName: 'Search',
+})
+
 export const StudioStack = createStackNavigator({
-  Studio, 
-  Camera,
-  Editor
-}, {
-initialRouteName: 'Studio',
+    Studio, 
+    Camera,
+    Editor
+  }, {
+  initialRouteName: 'Studio',
 })
 
 // A stack of screens that defines all the screens the user can navigate to 
@@ -49,6 +62,13 @@ export const SignedIn = createBottomTabNavigator({
       tabBarIcon: <Icon name="bolt" size={18} color="#242424" />,
     },
   },
+  Search : {
+    screen: SearchStack,
+    navigationOptions: {
+      title: "Search",
+      tabBarIcon: <Icon name="search" size={18} color="#242424" />,
+    },
+  },
   Studio : {
     screen: StudioStack,
     navigationOptions: {
@@ -62,6 +82,7 @@ export const SignedIn = createBottomTabNavigator({
       title: "Profile",
       tabBarIcon: <Icon name="user" size={18} color="#242424" />,
     },
+    //initialParams: { username: firebase.auth().currentUser.providerData[0].displayName, searchId: firebase.auth().currentUser.uid},
   }
 })
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { TextInput, Button, View, StyleSheet, Image } from 'react-native';
-import firebase from '../config/firebase';
+import firebase from '../../config/firebase';
 
 const db = firebase.firestore();
 
@@ -43,7 +43,7 @@ export default class Search extends React.Component {
     return(
       <View>
         <Button title={doc.username} style={{marginLeft: 5}} 
-          onPress={() => this.props.navigation.navigate('Profile', {username: doc.username, searchId: doc.userId})}>
+          onPress={() => this.props.navigation.navigate('UserProfile', {username: doc.username, searchId: doc.userId})}>
         </Button>
       </View>
     )
