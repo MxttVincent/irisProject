@@ -67,7 +67,7 @@ export const ProfileStack = createStackNavigator({
     Post
   }, {
   initialRoute: 'Profile',
-})
+}, { headerLayoutPreset: 'center' })
 
 
 // Once signed in, The screens the user can navigate to these tabs.
@@ -99,8 +99,9 @@ export const SignedIn = createBottomTabNavigator({
       title: "Profile",
       tabBarIcon: <Icon name="user" size={18} color="#242424" />,
     },
+    headerLayoutPreset: 'center'
   }
-})
+}, { headerLayoutPreset: 'center' })
 
 // All the screens the user can navigate to without being signed in.
 // Home, signUp (Form), SignIn (Form), maybe loading screen, etc.. 

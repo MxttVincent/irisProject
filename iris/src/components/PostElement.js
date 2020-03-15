@@ -5,7 +5,7 @@ export default PostElement = (props) => {
   return (
       <View style={{flex: 1}}>
           <View style={styles.postTitle}>
-            <Text>Username goes here</Text>
+            <Text>Post by {props.username}</Text>
           </View>
           
           <Image source={{uri: props.uri}} style={styles.photo}></Image>

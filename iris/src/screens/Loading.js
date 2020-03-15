@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Image, Text } from 'react-native';
+
+//Needs to be converted to a component to use on other screens
 
 export default class Loading extends Component {
   render() {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Icon name="spinner" size={60} color="#242424" />
+        <Image source={require('../../assets/loading.gif')} style={{width: 120, height: 120}}/>
       </View>
     )
   }

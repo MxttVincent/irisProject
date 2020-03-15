@@ -79,16 +79,21 @@ export default class Gallery extends React.Component {
   }
 
   fetchPhotos = (uid) => {
-    const listRef = db.doc("users/" + uid).collection("posts")
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          let dataUri = doc.data().uri;
-          this.setState({photos: [...this.state.photos, dataUri]});
+    const listRef = storageRef.child(`users/${uid}`);
+    listRef.listAll().then(res => {
+      res.items.forEach(itemRef => {
+        itemRef.getDownloadURL().then(url => {
+          this.setState({photos: [...this.state.photos, url]});
+        }).catch(error => {
+          console.log(error);
+        }) 
+
       })
-  })
-  }
+    }).catch(err => {
+      console.log(err);
+    })
+    
+  } 
 
   // what happens when the user selects a photo.
   onSelectPhoto = () => {

@@ -52,7 +52,7 @@ export default class Search extends React.Component {
   render() {
     return (
       <View style={styles.area}>
-        <TextInput style={{marginLeft: 5}} placeholder="Search for a user..." onChangeText={value => this.dbQuery(value)}></TextInput>
+        <TextInput style={{marginHorizontal: 5, marginBottom: 10}} placeholder="Search for a user..." onChangeText={value => this.dbQuery(value)}></TextInput>
         {this.state.dbResult}
         <Button 
           title="Go to User Gallery"

@@ -4,6 +4,8 @@ import Dialog from "react-native-dialog";
 import firebase from '../../config/firebase';
 import * as ImagePicker from 'expo-image-picker';
 
+var storageRef = firebase.storage().ref();
+
 export default class EditProfile extends React.Component {
   static navigationOptions = {
     title: 'Edit Profile',
@@ -23,7 +25,8 @@ export default class EditProfile extends React.Component {
       showPasswordDialog: false,
       showEmailDialog: false,
       currentPassword: '',
-      newPassword: ''
+      newPassword: '',
+      avatarUrl: null
     }
   }
 
@@ -157,34 +160,72 @@ export default class EditProfile extends React.Component {
 
     if(!result.cancelled) {
       const user = firebase.auth().currentUser;
-      this.setState({
-        photoUrl: result.uri
-      })
 
-      user.updateProfile({
-        photoURL: result.uri
+      const response = await fetch(result.uri);
+      // create a BINARY LARGE OBJECT (Blob)
+      const blob = await response.blob();
+      // store the images filename
+      const filename = blob.data.name;
+      // create a reference where the image will live in storage
+      let imagesRef = storageRef.child(`users/${firebase.auth().currentUser.userId}/avatarUrl`);
+      const task = imagesRef.put(blob);
+      // Upload the blob/image to the referred location
+      const uri2 = await task.then( async (snapshot) => {
+        console.log("image uploaded successfully");
+        const url2 = await imagesRef.getDownloadURL().then(url => {
+          console.log(url);
+          return url;
+          //console.log(this.state.avatarUrl)
+        }).catch(error => {
+          console.log(error);
+        }) 
+        return url2;
+      }).catch(error => {
+        console.log(error)
       })
-      .then(() => {
-        console.log("User avatar url updated");
-      })
-      .catch(error => {
-        console.error(error);
-      })
+  
+        console.log("uphere" + uri2);
 
-      const db = firebase.firestore();
-      const usersRef = db.collection("users").doc(`${user.uid}`);
-      
-      return usersRef.update({
-        avatarURL: result.uri
-      })
-      .then(() => {
-        console.log("Database updated with photo url info")
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+        const db = firebase.firestore();
+        const usersRef = db.collection("users").doc(`${user.uid}`);
+        
+        return usersRef.update({
+          avatarUrl: uri2
+        })
+        .then(() => {
+          console.log("Database updated with photo url info")
+        })
+        .catch((err) => {
+          console.error(err);
+        })
     }
     
+  }
+
+  uploadAvatar = async (uri) => {
+    // fetch the image uri
+    const response = await fetch(uri);
+    // create a BINARY LARGE OBJECT (Blob)
+    const blob = await response.blob();
+    // store the images filename
+    const filename = blob.data.name;
+    // create a reference where the image will live in storage
+    let imagesRef = storageRef.child(`users/${firebase.auth().currentUser.userId}/avatarUrl`);
+    const task = imagesRef.put(blob);
+    // Upload the blob/image to the referred location
+    const uri2 = await task.then((snapshot) => {
+      console.log("image uploaded successfully");
+      imagesRef.getDownloadURL().then(url => {
+        console.log(url);
+        return url;
+        //console.log(this.state.avatarUrl)
+      }).catch(error => {
+        console.log(error);
+      }) 
+    }).catch(error => {
+      console.log(error)
+    })
+    return uri2;
   }
 
   render() {

@@ -7,7 +7,6 @@ import firebase from './src/config/firebase';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log("Current user: " + firebase.auth().currentUser);
     this.state = {
       signedIn: firebase.auth().currentUser == null ? false : true,
     }
@@ -21,14 +20,12 @@ export default class App extends React.Component {
       if (user) {
         // User is signed in.
         this.setState({signedIn: true});
-        console.log("User is logged in");
         
         // if user is logged in, navigate them to the appropriate page
       } else {
         // User is signed out.
         // ...
         this.setState({signedIn: false});
-        console.log("User is not logged in");
       }
     });
   }
@@ -37,7 +34,6 @@ export default class App extends React.Component {
     // const A = createAppContainer(createRootNavigator(false));
 
   const A = createAppContainer(createRootNavigator(this.state.signedIn));
-    console.log("Signed in? " + this.state.signedIn);
     return (
       <A />
     )

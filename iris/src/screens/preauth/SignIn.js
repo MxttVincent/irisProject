@@ -50,8 +50,6 @@ class SignIn extends React.Component {
   // this method handles to login logic.
   handleLogin = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-      // on success
-      console.log("user signed in");
       // navigate the user to the appropriate page when a user signs up
       this.props.navigation.navigate('Home');
     }).catch((error) => {
