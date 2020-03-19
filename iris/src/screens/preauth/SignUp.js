@@ -2,6 +2,12 @@ import React from 'react';
 import { Text, TextInput, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import firebase from '../../config/firebase';
 
+const db = firebase.firestore();
+
+//TODO
+//
+//Need to add a default avatar to the database for each user, then retrieve in search and profile screens
+
 export default class SignUp extends React.Component {
   static navigationOptions = {
     title: 'Sign Up Screen',
@@ -27,6 +33,8 @@ export default class SignUp extends React.Component {
       userId: userId,
       username: username,
       email: email,
+      followers: 0,
+      following: 0
     })
     .then(() => {
       // set the users display name to their username 

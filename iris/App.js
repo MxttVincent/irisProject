@@ -8,7 +8,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signedIn: false,
+      signedIn: firebase.auth().currentUser == null ? false : true,
     }
   }
 
@@ -20,23 +20,20 @@ export default class App extends React.Component {
       if (user) {
         // User is signed in.
         this.setState({signedIn: true});
-        console.log("user is logged in");
         
         // if user is logged in, navigate them to the appropriate page
       } else {
         // User is signed out.
         // ...
         this.setState({signedIn: false});
-        console.log("user is not logged in");
       }
     });
   }
 
   render() {
     // const A = createAppContainer(createRootNavigator(false));
-  const A = createAppContainer(createRootNavigator(this.state.signedIn));
 
-    console.log(this.state.signedIn);
+  const A = createAppContainer(createRootNavigator(this.state.signedIn));
     return (
       <A />
     )
