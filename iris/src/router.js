@@ -1,9 +1,9 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import non-auth screens
-import SignIn from './screens/preauth/SignIn';
-import SignUp from './screens/preauth/SignUp';
-import Home from './screens/preauth/Home';
+import SignIn from './screens/PreAuth/SignIn';
+import SignUp from './screens/PreAuth/SignUp';
+import Home from './screens/PreAuth/Home';
 // import screens when authorised.
 import Feed from './screens/FeedTab/Feed';
 import Profile from './screens/ProfileTab/Profile';
